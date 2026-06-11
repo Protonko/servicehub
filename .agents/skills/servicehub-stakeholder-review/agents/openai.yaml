@@ -1,0 +1,4 @@
+interface:
+  display_name: "ServiceHub Stakeholder Review"
+  short_description: "Validate implementation against business expectations."
+  default_prompt: "Use this skill to review whether a ServiceHub implementation matches business workflows and acceptance criteria."

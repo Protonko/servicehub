@@ -1,0 +1,4 @@
+interface:
+  display_name: "ServiceHub Tester Review"
+  short_description: "Design and review backend tests for ServiceHub."
+  default_prompt: "Use this skill to plan or review ServiceHub tests, edge cases, and verification commands."

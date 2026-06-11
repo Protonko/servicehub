@@ -1,0 +1,4 @@
+interface:
+  display_name: "ServiceHub Architect Review"
+  short_description: "Review ServiceHub feature architecture."
+  default_prompt: "Use this skill to review ServiceHub feature specs or implementation for architecture, layering, dependencies, and consistency."

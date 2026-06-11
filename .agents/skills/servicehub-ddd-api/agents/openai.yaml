@@ -1,0 +1,4 @@
+interface:
+  display_name: "ServiceHub DDD API"
+  short_description: "Create ServiceHub DDD/NestJS API slices."
+  default_prompt: "Use this skill to plan or implement a ServiceHub DDD/NestJS API feature slice."

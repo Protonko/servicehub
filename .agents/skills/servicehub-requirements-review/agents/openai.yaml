@@ -1,0 +1,4 @@
+interface:
+  display_name: "ServiceHub Requirements Review"
+  short_description: "Review feature specs against product requirements."
+  default_prompt: "Use this skill to review ServiceHub requirements, feature specs, and scope before implementation."
