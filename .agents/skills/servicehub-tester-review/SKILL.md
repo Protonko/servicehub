@@ -42,6 +42,13 @@ transaction rollback behavior
 idempotency where applicable
 ```
 
+Avoid low-value tests:
+
+```text
+Do not require tests that only assert static constants, enums, type aliases, or object literals equal their declared values.
+Prefer testing the behavior or persistence rule that uses those values.
+```
+
 High-risk ServiceHub scenarios:
 
 ```text

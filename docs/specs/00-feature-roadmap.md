@@ -44,7 +44,7 @@ Current baseline:
 | Order | Feature | Status | Generates Spec |
 |---:|---|---|---|
 | 01 | Database foundation | done | `01-database-foundation.md` |
-| 02 | Role seed data | planned | `02-role-seed-data.md` |
+| 02 | Role seed data | done | `02-role-seed-data.md` |
 | 03 | User persistence | planned | `03-user-persistence.md` |
 | 04 | Auth registration | planned | `04-auth-registration.md` |
 | 05 | Auth login and cookies | planned | `05-auth-login-cookies.md` |
@@ -163,7 +163,7 @@ docs/specs/01-database-foundation.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -182,7 +182,6 @@ Outputs:
 
 ```text
 roles table entity/migration if not already created
-user_roles join table entity/migration if not already created
 seed command or idempotent seed migration
 role enum/constants
 ```

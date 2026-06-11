@@ -326,6 +326,31 @@ domain events
 domain exceptions
 ```
 
+`domain/model` is for framework-free business objects and domain vocabulary that
+carry business meaning:
+
+```text
+aggregates and entities such as ServiceRequest, Assignment, Technician
+value objects such as time windows, priorities, statuses, and role codes
+small domain enums when application code must share the exact business vocabulary
+```
+
+Do not use `domain/model` as a general constants folder.
+
+Keep out of `domain/model`:
+
+```text
+TypeORM entities or database column shapes
+API DTOs or response shapes
+NestJS decorators, guards, or modules
+pure presentation labels that are only seed/display data
+technical configuration constants
+```
+
+If an enum or constant does not affect business rules, validation,
+authorization, state transitions, or persistence contracts, keep it closer to
+where it is used instead of promoting it to the domain layer.
+
 Examples of domain rules:
 
 ```text

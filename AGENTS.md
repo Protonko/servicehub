@@ -165,6 +165,14 @@ not import TypeORM decorators or entity classes
 not import BullMQ
 ```
 
+Domain models should:
+
+```text
+represent business objects, value objects, or shared business vocabulary
+not be used as a generic constants folder
+avoid presentation-only labels or technical configuration values
+```
+
 Infrastructure code should:
 
 ```text
@@ -258,6 +266,11 @@ Keep the explanation practical. The document should explain the backend concept 
 ## Testing Rules
 
 Use tests according to risk.
+
+Do not add tests that only assert static constants, enums, type aliases, or
+object literals equal their declared values. Test behavior, business rules,
+validation, persistence constraints, transaction outcomes, or integration risks
+instead.
 
 Prefer:
 
