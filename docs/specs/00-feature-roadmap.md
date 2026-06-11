@@ -43,7 +43,7 @@ Current baseline:
 
 | Order | Feature | Status | Generates Spec |
 |---:|---|---|---|
-| 01 | Database foundation | planned | `01-database-foundation.md` |
+| 01 | Database foundation | done | `01-database-foundation.md` |
 | 02 | Role seed data | planned | `02-role-seed-data.md` |
 | 03 | User persistence | planned | `03-user-persistence.md` |
 | 04 | Auth registration | planned | `04-auth-registration.md` |
@@ -90,7 +90,7 @@ Current baseline:
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
