@@ -10,6 +10,10 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.config.js\" \"eslint.config.mjs\" \"nest-cli.json\" \"package.json\" \"tsconfig*.json\" \".prettierrc.json\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.config.js\" \"eslint.config.mjs\" \"nest-cli.json\" \"package.json\" \"tsconfig*.json\" \".prettierrc.json\"",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
     "start:api": "node dist/main.js",
     "start:worker": "node dist/worker.js",
     "start:dev": "nest start --watch",
@@ -35,17 +39,23 @@
     "typeorm": "^1.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@nestjs/cli": "^11.0.23",
     "@nestjs/schematics": "^11.1.0",
     "@nestjs/testing": "^11.1.26",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.9.3",
     "@types/supertest": "^7.2.0",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.6.0",
     "jest": "^30.4.2",
+    "prettier": "^3.8.4",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.0"
   }
 }

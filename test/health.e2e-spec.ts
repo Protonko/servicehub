@@ -24,7 +24,7 @@ describe('Health endpoint', () => {
     await app.close();
   });
 
-  it('GET /health returns ok', async () => {
+  it('GET /health returns ok', () => {
     const controller = app.get(HealthController);
 
     expect(controller.getHealth()).toEqual({

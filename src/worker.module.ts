@@ -7,12 +7,6 @@ import { DomainModule } from './domain/domain.module';
 import { InfraModule } from './infra/infra.module';
 
 @Module({
-  imports: [
-    AppConfigModule,
-    DatabaseModule,
-    DomainModule,
-    InfraModule,
-    ApplicationModule,
-  ],
+  imports: [AppConfigModule, DatabaseModule, DomainModule, InfraModule, ApplicationModule],
 })
 export class WorkerModule {}

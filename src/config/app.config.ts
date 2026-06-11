@@ -32,10 +32,7 @@ const parseInteger = (value: string | undefined, fallback: number): number => {
   return parsed;
 };
 
-const parseBoolean = (
-  value: string | undefined,
-  fallback = false,
-): boolean => {
+const parseBoolean = (value: string | undefined, fallback = false): boolean => {
   if (!value) {
     return fallback;
   }
