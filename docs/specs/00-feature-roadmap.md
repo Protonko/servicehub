@@ -45,10 +45,10 @@ Current baseline:
 |---:|---|---|---|
 | 01 | Database foundation | done | `01-database-foundation.md` |
 | 02 | Role seed data | done | `02-role-seed-data.md` |
-| 03 | User persistence | planned | `03-user-persistence.md` |
-| 04 | Auth registration | planned | `04-auth-registration.md` |
-| 05 | Auth login and cookies | planned | `05-auth-login-cookies.md` |
-| 06 | Current user and guards | planned | `06-current-user-guards.md` |
+| 03 | User persistence | done | `03-user-persistence.md` |
+| 04 | Auth registration | done | `04-auth-registration.md` |
+| 05 | Auth login and cookies | done | `05-auth-login-cookies.md` |
+| 06 | Current user and guards | done | `06-current-user-guards.md` |
 | 07 | Service catalog schema and seeds | planned | `07-service-catalog-schema-seeds.md` |
 | 08 | Service catalog read API | planned | `08-service-catalog-read-api.md` |
 | 09 | Admin service catalog management | planned | `09-admin-service-catalog-management.md` |
@@ -216,7 +216,7 @@ docs/specs/02-role-seed-data.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -272,7 +272,7 @@ docs/specs/03-user-persistence.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -330,7 +330,7 @@ docs/specs/04-auth-registration.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -392,7 +392,7 @@ docs/specs/05-auth-login-cookies.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

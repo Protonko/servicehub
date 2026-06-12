@@ -1,4 +1,4 @@
-export type AppConfig = {
+export interface AppConfig {
   app: {
     nodeEnv: string;
     port: number;
@@ -16,7 +16,13 @@ export type AppConfig = {
     host: string;
     port: number;
   };
-};
+  auth: {
+    jwtSecret: string;
+    accessTokenTtlSeconds: number;
+    refreshTokenTtlSeconds: number;
+    secureCookies: boolean;
+  };
+}
 
 const parseInteger = (value: string | undefined, fallback: number): number => {
   if (!value) {
@@ -57,5 +63,11 @@ export const appConfig = (): AppConfig => ({
   redis: {
     host: process.env.REDIS_HOST ?? 'localhost',
     port: parseInteger(process.env.REDIS_PORT, 6379),
+  },
+  auth: {
+    jwtSecret: process.env.AUTH_JWT_SECRET ?? 'development-only-change-me',
+    accessTokenTtlSeconds: parseInteger(process.env.AUTH_ACCESS_TOKEN_TTL_SECONDS, 15 * 60),
+    refreshTokenTtlSeconds: parseInteger(process.env.AUTH_REFRESH_TOKEN_TTL_SECONDS, 7 * 24 * 60 * 60),
+    secureCookies: parseBoolean(process.env.AUTH_SECURE_COOKIES),
   },
 });

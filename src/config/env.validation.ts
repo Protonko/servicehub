@@ -1,8 +1,14 @@
 type Environment = Record<string, string | undefined>;
 
-const optionalIntegerKeys = ['PORT', 'DATABASE_PORT', 'REDIS_PORT'] as const;
+const optionalIntegerKeys = [
+  'PORT',
+  'DATABASE_PORT',
+  'REDIS_PORT',
+  'AUTH_ACCESS_TOKEN_TTL_SECONDS',
+  'AUTH_REFRESH_TOKEN_TTL_SECONDS',
+] as const;
 
-const optionalBooleanKeys = ['DATABASE_SSL', 'DATABASE_MIGRATIONS_RUN'] as const;
+const optionalBooleanKeys = ['DATABASE_SSL', 'DATABASE_MIGRATIONS_RUN', 'AUTH_SECURE_COOKIES'] as const;
 
 export const validateEnvironment = (config: Environment): Environment => {
   for (const key of optionalIntegerKeys) {

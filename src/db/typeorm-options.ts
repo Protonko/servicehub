@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 
-import { AppConfig } from '../config/app.config';
+import { AppConfig } from '@config/app.config';
 
 type DatabaseConfig = AppConfig['database'];
 

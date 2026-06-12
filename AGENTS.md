@@ -309,6 +309,13 @@ ServiceRequestTypeOrmRepository
 
 Keep DTOs, domain models, and database entities separate.
 
+Use `interface` for object shapes. Keep `type` for unions, intersections,
+indexed access, mapped/utility aliases, and other non-object aliases.
+
+Use `*.entity.ts` only for TypeORM persistence entities in `src/db/entities`.
+For non-trivial domain models, prefer a folder per model with `*.model.ts`,
+`*.props.ts`, and `index.ts`; do not use the `Entity` suffix for domain models.
+
 Avoid generic helper abstractions until duplication is real and obvious.
 
 Add comments only when they explain non-obvious business or transactional behavior.

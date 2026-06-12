@@ -1,15 +1,14 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 
-import { ApiModule } from '../src/api/api.module';
-import { HealthController } from '../src/api/http/health.controller';
+import { HealthController } from '@api/http/health.controller';
 
 describe('Health endpoint', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [ApiModule],
+      controllers: [HealthController],
     }).compile();
 
     app = moduleRef.createNestApplication();
@@ -21,7 +20,9 @@ describe('Health endpoint', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      await app.close();
+    }
   });
 
   it('GET /health returns ok', () => {

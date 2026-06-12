@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 
-type HealthResponse = {
+interface HealthResponse {
   status: 'ok';
   service: 'servicehub-api';
-};
+}
 
 @Controller('health')
 export class HealthController {

@@ -20,6 +20,7 @@
       "@api/*": ["src/api/*"],
       "@application/*": ["src/application/*"],
       "@config/*": ["src/config/*"],
+      "@contract/*": ["src/contract/*"],
       "@db/*": ["src/db/*"],
       "@domain/*": ["src/domain/*"],
       "@infra/*": ["src/infra/*"]
