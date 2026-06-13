@@ -6,10 +6,11 @@ import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { HealthController } from './health.controller';
 import { RolesGuard } from './guards/roles.guard';
+import { ServiceCatalogController } from './service-catalog.controller';
 
 @Module({
   imports: [ApplicationModule, InfraModule],
-  controllers: [HealthController, AuthController],
+  controllers: [HealthController, AuthController, ServiceCatalogController],
   providers: [JwtAuthGuard, RolesGuard],
 })
 export class ApiHttpModule {}

@@ -49,8 +49,8 @@ Current baseline:
 | 04 | Auth registration | done | `04-auth-registration.md` |
 | 05 | Auth login and cookies | done | `05-auth-login-cookies.md` |
 | 06 | Current user and guards | done | `06-current-user-guards.md` |
-| 07 | Service catalog schema and seeds | planned | `07-service-catalog-schema-seeds.md` |
-| 08 | Service catalog read API | planned | `08-service-catalog-read-api.md` |
+| 07 | Service catalog schema and seeds | done | `07-service-catalog-schema-seeds.md` |
+| 08 | Service catalog read API | done | `08-service-catalog-read-api.md` |
 | 09 | Admin service catalog management | planned | `09-admin-service-catalog-management.md` |
 | 10 | Service areas and customer addresses | planned | `10-service-areas-customer-addresses.md` |
 | 11 | Service request domain model | planned | `11-service-request-domain-model.md` |
@@ -444,7 +444,7 @@ docs/specs/06-current-user-guards.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -501,7 +501,7 @@ docs/specs/07-service-catalog-schema-seeds.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
