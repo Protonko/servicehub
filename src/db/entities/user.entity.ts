@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -11,7 +11,7 @@ import { UserRoleEntity } from './user-role.entity';
 
 @Entity('users')
 export class UserEntity {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ type: 'varchar', length: 320, unique: true })

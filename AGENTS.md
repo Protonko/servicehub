@@ -77,12 +77,12 @@ Use SDD: Spec-Driven Development.
 
 For every meaningful implementation step, write the specification before writing code.
 
-The specification can be a separate document or a dedicated section in the engineering note for that step.
+The specification must be a separate tracked document.
 
 Preferred location:
 
 ```text
-docs/engineering-notes/NN-topic-name.md
+docs/specs/NN-feature-name.md
 ```
 
 Each step specification should define:
@@ -215,7 +215,6 @@ write or update the step specification before editing code
 explain the intended implementation briefly before editing
 keep code scoped to the current step
 add focused tests when behavior is implemented
-update or create an engineering note for the step
 verify the change with the smallest useful command
 ```
 
@@ -225,7 +224,9 @@ Do not add Kafka, Kubernetes, GraphQL, microservices, event sourcing, real SMS/e
 
 ## Engineering Notes Rule
 
-Every meaningful implementation step must create or update a separate engineering note.
+Engineering notes are personal learning notes for the project owner.
+
+They are intentionally ignored by git and must not be force-added or committed unless the user explicitly asks.
 
 Engineering notes live in:
 
@@ -233,35 +234,42 @@ Engineering notes live in:
 docs/engineering-notes/
 ```
 
-Use this naming pattern:
+They should be organized by backend topic, not by implementation step.
+
+Good topics:
 
 ```text
-docs/engineering-notes/NN-topic-name.md
+backend layers
+database and TypeORM
+repositories versus read queries
+authentication and authorization
+testing strategy
+spec-driven workflow
 ```
 
-Examples:
+Do not create a note just because a feature was implemented.
+
+Create or update a note only when the work introduces or clarifies a backend concept, tradeoff, or repeated decision rule worth teaching.
+
+Engineering notes should explain:
 
 ```text
-docs/engineering-notes/01-project-setup.md
-docs/engineering-notes/02-identity-auth.md
-docs/engineering-notes/03-service-catalog.md
-docs/engineering-notes/04-service-requests.md
+why this approach was chosen
+what alternative was rejected
+which backend rule this demonstrates
+how to make the same decision later
 ```
 
-Each engineering note should explain:
+Engineering notes should not explain:
 
 ```text
-what was built
-why it was needed
-which files were added or changed
-how data flows through the layers
-which backend concepts are demonstrated
-how to run or test the step
-what tradeoffs were made
-what should be improved later
+file-by-file change summaries
+duplicated feature specs
+generic changelog entries
+obvious code narration
 ```
 
-Keep the explanation practical. The document should explain the backend concept and implementation decisions, not just list changed files.
+Keep them short, practical, and in Russian unless the user asks otherwise.
 
 ## Testing Rules
 
