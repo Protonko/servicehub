@@ -1,3 +1,5 @@
+import { RequestPriority } from '@domain/model';
+
 export interface ServiceCategorySummary {
   id: string;
   code: string;
@@ -23,7 +25,7 @@ export interface ServiceTypeSummary {
   code: string;
   name: string;
   description: string | null;
-  defaultPriority: string;
+  defaultPriority: RequestPriority;
   estimatedDurationMinutes: number;
   isOther: boolean;
   slaPolicy: ServiceCatalogSlaPolicySummary;

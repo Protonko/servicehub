@@ -1,4 +1,5 @@
 import { ServiceCategorySummary, ServiceTypeSummary } from '@application/read-models';
+import { RequestPriority } from '@domain/model';
 
 export interface ServiceCategoryResponseDto {
   id: string;
@@ -29,7 +30,7 @@ export interface ServiceTypeResponseDto {
   code: string;
   name: string;
   description: string | null;
-  defaultPriority: string;
+  defaultPriority: RequestPriority;
   estimatedDurationMinutes: number;
   isOther: boolean;
   slaPolicy: ServiceCatalogSlaPolicyResponseDto;

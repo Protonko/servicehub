@@ -6,6 +6,7 @@ import { ServiceCatalogReadQuery } from '@application/queries/service-catalog-re
 import { ServiceCategorySummary, ServiceTypeSummary } from '@application/read-models';
 import { ServiceCategoryEntity } from '@db/entities/service-category.entity';
 import { ServiceTypeEntity } from '@db/entities/service-type.entity';
+import { RequestPriority } from '@domain/model';
 
 interface ServiceTypeRow {
   serviceTypeId: string;
@@ -13,7 +14,7 @@ interface ServiceTypeRow {
   code: string;
   name: string;
   description: string | null;
-  defaultPriority: string;
+  defaultPriority: RequestPriority;
   estimatedDurationMinutes: number;
   isOther: boolean;
   slaPolicyId: string;

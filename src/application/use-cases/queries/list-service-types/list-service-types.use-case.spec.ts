@@ -1,4 +1,5 @@
 import { ServiceCategoryNotFoundError } from '@application/errors';
+import { RequestPriority } from '@domain/model';
 import { ListServiceTypesUseCase } from './list-service-types.use-case';
 
 describe('ListServiceTypesUseCase', () => {
@@ -12,7 +13,7 @@ describe('ListServiceTypesUseCase', () => {
           code: 'AC_NOT_COOLING',
           name: 'Air conditioner does not cool',
           description: null,
-          defaultPriority: 'normal',
+          defaultPriority: RequestPriority.Normal,
           estimatedDurationMinutes: 90,
           isOther: false,
           slaPolicy: {
@@ -34,7 +35,7 @@ describe('ListServiceTypesUseCase', () => {
           code: 'AC_NOT_COOLING',
           name: 'Air conditioner does not cool',
           description: null,
-          defaultPriority: 'normal',
+          defaultPriority: RequestPriority.Normal,
           estimatedDurationMinutes: 90,
           isOther: false,
           slaPolicy: {

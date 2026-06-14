@@ -1,4 +1,5 @@
 import { ServiceCategoryNotFoundError } from '@application/errors';
+import { RequestPriority } from '@domain/model';
 import { ServiceCatalogController } from './service-catalog.controller';
 
 describe('ServiceCatalogController', () => {
@@ -24,7 +25,7 @@ describe('ServiceCatalogController', () => {
             code: 'AC_NOT_COOLING',
             name: 'Air conditioner does not cool',
             description: null,
-            defaultPriority: 'normal',
+            defaultPriority: RequestPriority.Normal,
             estimatedDurationMinutes: 90,
             isOther: false,
             slaPolicy: {
@@ -80,7 +81,7 @@ describe('ServiceCatalogController', () => {
           code: 'AC_NOT_COOLING',
           name: 'Air conditioner does not cool',
           description: null,
-          defaultPriority: 'normal',
+          defaultPriority: RequestPriority.Normal,
           estimatedDurationMinutes: 90,
           isOther: false,
           slaPolicy: {
