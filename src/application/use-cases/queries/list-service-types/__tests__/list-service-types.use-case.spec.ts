@@ -1,6 +1,6 @@
 import { ServiceCategoryNotFoundError } from '@application/errors';
 import { RequestPriority } from '@domain/model';
-import { ListServiceTypesUseCase } from './list-service-types.use-case';
+import { ListServiceTypesUseCase } from '../list-service-types.use-case';
 
 describe('ListServiceTypesUseCase', () => {
   it('returns service types for an active category', async () => {

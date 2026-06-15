@@ -1,4 +1,4 @@
-import { ServiceCategory } from './service-category.model';
+import { ServiceCategory } from '../service-category.model';
 
 describe('ServiceCategory', () => {
   it('normalizes service category creation input', () => {

@@ -1,4 +1,4 @@
-import { createTypeOrmDataSourceOptions, createTypeOrmModuleOptions } from './typeorm-options';
+import { createTypeOrmDataSourceOptions, createTypeOrmModuleOptions } from '../typeorm-options';
 
 const databaseConfig = {
   host: 'db.example.local',

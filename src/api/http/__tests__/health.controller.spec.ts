@@ -1,4 +1,4 @@
-import { HealthController } from './health.controller';
+import { HealthController } from '../health.controller';
 
 describe('HealthController', () => {
   it('returns API health status', () => {

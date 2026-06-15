@@ -2,7 +2,7 @@ import { RequestPriority, ServiceCategory, ServiceType } from '@domain/model';
 import { ServiceCategoryEntity } from '@db/entities/service-category.entity';
 import { ServiceTypeRequiredSkillEntity } from '@db/entities/service-type-required-skill.entity';
 import { ServiceTypeEntity } from '@db/entities/service-type.entity';
-import { ServiceCatalogAdminMapper } from './service-catalog-admin.mapper';
+import { ServiceCatalogAdminMapper } from '../service-catalog-admin.mapper';
 
 describe('ServiceCatalogAdminMapper', () => {
   it('maps service category persistence data to a domain model', () => {

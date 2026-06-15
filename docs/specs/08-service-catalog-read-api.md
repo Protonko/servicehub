@@ -281,8 +281,8 @@ invalid categoryId returns 400
 
 ```bash
 npm run typecheck
-npm test -- --runTestsByPath src/application/use-cases/queries/list-service-categories/list-service-categories.use-case.spec.ts src/application/use-cases/queries/list-service-types/list-service-types.use-case.spec.ts src/api/http/service-catalog.controller.spec.ts
-npm run test:e2e -- --runTestsByPath test/service-catalog.e2e-spec.ts
+npm test -- --runTestsByPath src/application/use-cases/queries/list-service-categories/__tests__/list-service-categories.use-case.spec.ts src/application/use-cases/queries/list-service-types/__tests__/list-service-types.use-case.spec.ts src/api/http/__tests__/service-catalog.controller.spec.ts
+npm run test:e2e -- --runTestsByPath test/__tests__/service-catalog.e2e-spec.ts
 ```
 
 ## Rollout Notes

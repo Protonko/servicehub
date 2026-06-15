@@ -1,6 +1,6 @@
 import { ServiceCategoryNotFoundError } from '@application/errors';
 import { RequestPriority } from '@domain/model';
-import { ServiceCatalogController } from './service-catalog.controller';
+import { ServiceCatalogController } from '../service-catalog.controller';
 
 describe('ServiceCatalogController', () => {
   const createController = () => {

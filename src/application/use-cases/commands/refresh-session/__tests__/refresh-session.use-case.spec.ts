@@ -3,7 +3,7 @@ import { User } from '@domain/model';
 import { UserRepository } from '@domain/repositories';
 import { AuthTokenService } from '@contract/auth';
 import { UnauthenticatedError } from '@application/errors';
-import { RefreshSessionUseCase } from './refresh-session.use-case';
+import { RefreshSessionUseCase } from '../refresh-session.use-case';
 
 describe('RefreshSessionUseCase', () => {
   const createDependencies = () => {

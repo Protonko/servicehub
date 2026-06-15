@@ -241,7 +241,7 @@ none
 
 ```bash
 npm run typecheck
-npm test -- --runTestsByPath src/db/migration-tests/service-catalog-schema-seeds.spec.ts
+npm test -- --runTestsByPath src/db/migration-tests/__tests__/service-catalog-schema-seeds.spec.ts
 ```
 
 If PostgreSQL is running:

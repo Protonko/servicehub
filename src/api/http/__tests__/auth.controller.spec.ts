@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { RoleCode } from '@domain/model';
 import { DuplicateEmailError, InvalidCredentialsError } from '@application/errors';
-import { AuthController } from './auth.controller';
+import { AuthController } from '../auth.controller';
 
 const userSummary = {
   id: 'user-id',

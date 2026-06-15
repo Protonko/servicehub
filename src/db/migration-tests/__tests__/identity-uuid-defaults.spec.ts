@@ -1,6 +1,6 @@
 import { QueryRunner } from 'typeorm';
 
-import { IdentityUuidDefaults1781160004000 } from '../migrations/1781160004000-IdentityUuidDefaults';
+import { IdentityUuidDefaults1781160004000 } from '../../migrations/1781160004000-IdentityUuidDefaults';
 
 const createQueryRunner = () => {
   const queries: string[] = [];

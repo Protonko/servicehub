@@ -2,7 +2,7 @@ import { RoleCode } from '@domain/model';
 import { User } from '@domain/model';
 import { UserRepository } from '@domain/repositories';
 import { InactiveUserError, UnauthenticatedError } from '@application/errors';
-import { GetCurrentUserUseCase } from './get-current-user.use-case';
+import { GetCurrentUserUseCase } from '../get-current-user.use-case';
 
 describe('GetCurrentUserUseCase', () => {
   const createUser = (isActive = true) =>

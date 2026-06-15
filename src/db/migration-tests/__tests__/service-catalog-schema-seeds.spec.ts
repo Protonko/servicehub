@@ -1,6 +1,6 @@
 import { QueryRunner } from 'typeorm';
 
-import { ServiceCatalogSchemaSeeds1781160003000 } from '../migrations/1781160003000-ServiceCatalogSchemaSeeds';
+import { ServiceCatalogSchemaSeeds1781160003000 } from '../../migrations/1781160003000-ServiceCatalogSchemaSeeds';
 
 const createQueryRunner = () => {
   const queries: Array<{ query: string; parameters?: unknown[] }> = [];

@@ -1,4 +1,4 @@
-import { ListServiceCategoriesUseCase } from './list-service-categories.use-case';
+import { ListServiceCategoriesUseCase } from '../list-service-categories.use-case';
 
 describe('ListServiceCategoriesUseCase', () => {
   it('returns active categories from the catalog read query', async () => {

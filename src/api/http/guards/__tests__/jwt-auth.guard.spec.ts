@@ -2,7 +2,7 @@ import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 
 import { RoleCode } from '@domain/model';
 import { AuthTokenService } from '@contract/auth';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from '../jwt-auth.guard';
 
 const createContext = (request: Record<string, unknown>): ExecutionContext =>
   ({

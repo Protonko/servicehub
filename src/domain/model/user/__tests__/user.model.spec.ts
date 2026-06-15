@@ -1,5 +1,5 @@
-import { RoleCode } from '../role-code';
-import { User } from './user.model';
+import { RoleCode } from '../../role-code';
+import { User } from '../user.model';
 
 describe('User', () => {
   it('normalizes user identity fields when creating a user', () => {

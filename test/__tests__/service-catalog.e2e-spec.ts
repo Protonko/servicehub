@@ -9,7 +9,7 @@ import { DataSource } from 'typeorm';
 import { ACCESS_TOKEN_COOKIE } from '@application/auth';
 import { AUTH_TOKEN_SERVICE, AuthTokenService } from '@contract/auth';
 import { RoleCode } from '@domain/model';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 
 jest.setTimeout(30000);
 

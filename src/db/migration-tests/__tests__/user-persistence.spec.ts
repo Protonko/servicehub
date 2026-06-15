@@ -1,6 +1,6 @@
 import { QueryRunner } from 'typeorm';
 
-import { UserPersistence1781160002000 } from '../migrations/1781160002000-UserPersistence';
+import { UserPersistence1781160002000 } from '../../migrations/1781160002000-UserPersistence';
 
 const createQueryRunner = () => {
   const queries: string[] = [];

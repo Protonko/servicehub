@@ -3,7 +3,7 @@ import { User } from '@domain/model';
 import { UserRepository } from '@domain/repositories';
 import { AuthTokenService, PasswordHasher } from '@contract/auth';
 import { InactiveUserError, InvalidCredentialsError } from '@application/errors';
-import { LoginUseCase } from './login.use-case';
+import { LoginUseCase } from '../login.use-case';
 
 describe('LoginUseCase', () => {
   const createUser = (isActive = true) =>

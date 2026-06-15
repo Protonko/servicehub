@@ -3,7 +3,7 @@ import { User } from '@domain/model';
 import { RoleEntity } from '@db/entities/role.entity';
 import { UserRoleEntity } from '@db/entities/user-role.entity';
 import { UserEntity } from '@db/entities/user.entity';
-import { UserMapper } from './user.mapper';
+import { UserMapper } from '../user.mapper';
 
 describe('UserMapper', () => {
   it('maps user persistence data to a domain user', () => {

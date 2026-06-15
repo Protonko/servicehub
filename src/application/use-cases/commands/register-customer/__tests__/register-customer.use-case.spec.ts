@@ -3,7 +3,7 @@ import { User } from '@domain/model';
 import { UserRepository } from '@domain/repositories';
 import { PasswordHasher } from '@contract/auth';
 import { DuplicateEmailError } from '@application/errors';
-import { RegisterCustomerUseCase } from './register-customer.use-case';
+import { RegisterCustomerUseCase } from '../register-customer.use-case';
 
 describe('RegisterCustomerUseCase', () => {
   const createDependencies = () => {

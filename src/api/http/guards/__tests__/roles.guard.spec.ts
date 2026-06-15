@@ -2,7 +2,7 @@ import { ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 import { RoleCode } from '@domain/model';
-import { RolesGuard } from './roles.guard';
+import { RolesGuard } from '../roles.guard';
 
 const createContext = (request: Record<string, unknown>): ExecutionContext =>
   ({

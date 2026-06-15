@@ -1,6 +1,6 @@
 import { QueryRunner } from 'typeorm';
 
-import { RoleSeedData1781160001000 } from '../migrations/1781160001000-RoleSeedData';
+import { RoleSeedData1781160001000 } from '../../migrations/1781160001000-RoleSeedData';
 
 const migrationRoleRows = [
   {

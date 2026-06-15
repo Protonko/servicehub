@@ -5,10 +5,10 @@ import {
 } from '@application/errors';
 import { RequestPriority, ServiceCategory, ServiceType } from '@domain/model';
 import { ServiceCatalogAdminRepository } from '@domain/repositories';
-import { CreateServiceCategoryUseCase } from './create-service-category/create-service-category.use-case';
-import { CreateServiceTypeUseCase } from './create-service-type/create-service-type.use-case';
-import { UpdateServiceCategoryUseCase } from './update-service-category/update-service-category.use-case';
-import { UpdateServiceTypeUseCase } from './update-service-type/update-service-type.use-case';
+import { CreateServiceCategoryUseCase } from '../create-service-category/create-service-category.use-case';
+import { CreateServiceTypeUseCase } from '../create-service-type/create-service-type.use-case';
+import { UpdateServiceCategoryUseCase } from '../update-service-category/update-service-category.use-case';
+import { UpdateServiceTypeUseCase } from '../update-service-type/update-service-type.use-case';
 
 describe('Service catalog admin use cases', () => {
   const createRepository = () =>

@@ -1,5 +1,5 @@
-import { RequestPriority } from '../request-priority';
-import { ServiceType } from './service-type.model';
+import { RequestPriority } from '../../request-priority';
+import { ServiceType } from '../service-type.model';
 
 describe('ServiceType', () => {
   it('normalizes service type creation input and treats required skills as a set', () => {
