@@ -1,10 +1,14 @@
 export { CreateServiceCategoryUseCase } from './commands/create-service-category/create-service-category.use-case';
+export { CreateCustomerAddressUseCase } from './commands/create-customer-address/create-customer-address.use-case';
 export { CreateServiceTypeUseCase } from './commands/create-service-type/create-service-type.use-case';
 export { LoginUseCase } from './commands/login/login.use-case';
 export { RefreshSessionUseCase } from './commands/refresh-session/refresh-session.use-case';
 export { RegisterCustomerUseCase } from './commands/register-customer/register-customer.use-case';
 export { UpdateServiceCategoryUseCase } from './commands/update-service-category/update-service-category.use-case';
+export { UpdateCustomerAddressUseCase } from './commands/update-customer-address/update-customer-address.use-case';
 export { UpdateServiceTypeUseCase } from './commands/update-service-type/update-service-type.use-case';
 export { GetCurrentUserUseCase } from './queries/get-current-user/get-current-user.use-case';
+export { ListCustomerAddressesUseCase } from './queries/list-customer-addresses/list-customer-addresses.use-case';
 export { ListServiceCategoriesUseCase } from './queries/list-service-categories/list-service-categories.use-case';
+export { ListServiceAreasUseCase } from './queries/list-service-areas/list-service-areas.use-case';
 export { ListServiceTypesUseCase } from './queries/list-service-types/list-service-types.use-case';

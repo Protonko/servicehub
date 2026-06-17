@@ -12,20 +12,18 @@ import {
   MinLength,
 } from 'class-validator';
 
+import { trimString } from '@common/utils/trim-string';
 import { RequestPriority } from '@domain/model';
 import { ServiceCategory, ServiceType } from '@domain/model';
 
-const trimString = ({ value }: { value: unknown }): unknown =>
-  typeof value === 'string' ? value.trim() : value;
-
 export class CreateServiceCategoryRequestDto {
-  @Transform(trimString)
+  @Transform(({ value }) => trimString(value))
   @IsString()
   @MinLength(1)
   @Matches(/^[A-Za-z0-9_]+$/)
   code!: string;
 
-  @Transform(trimString)
+  @Transform(({ value }) => trimString(value))
   @IsString()
   @MinLength(1)
   name!: string;
@@ -40,7 +38,7 @@ export class CreateServiceCategoryRequestDto {
 }
 
 export class UpdateServiceCategoryRequestDto {
-  @Transform(trimString)
+  @Transform(({ value }) => trimString(value))
   @IsOptional()
   @IsString()
   @MinLength(1)
@@ -62,13 +60,13 @@ export class CreateServiceTypeRequestDto {
   @IsUUID()
   slaPolicyId!: string;
 
-  @Transform(trimString)
+  @Transform(({ value }) => trimString(value))
   @IsString()
   @MinLength(1)
   @Matches(/^[A-Za-z0-9_]+$/)
   code!: string;
 
-  @Transform(trimString)
+  @Transform(({ value }) => trimString(value))
   @IsString()
   @MinLength(1)
   name!: string;
@@ -101,7 +99,7 @@ export class UpdateServiceTypeRequestDto {
   @IsUUID()
   slaPolicyId?: string;
 
-  @Transform(trimString)
+  @Transform(({ value }) => trimString(value))
   @IsOptional()
   @IsString()
   @MinLength(1)

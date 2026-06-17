@@ -1,5 +1,13 @@
 export { RoleCode, isRoleCode } from './role-code';
 export { RequestPriority, REQUEST_PRIORITIES } from './request-priority';
+export { CustomerAddress } from './customer-address';
+export type {
+  CreateCustomerAddressInput,
+  CustomerAddressProps,
+  CustomerAddressServiceAreaSnapshot,
+  CustomerAddressWithServiceArea,
+  UpdateCustomerAddressInput,
+} from './customer-address';
 export { ServiceCategory } from './service-category';
 export type {
   CreateServiceCategoryInput,

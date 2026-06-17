@@ -12,6 +12,7 @@ module.exports = {
   moduleNameMapper: {
     '^@api/(.*)$': '<rootDir>/src/api/$1',
     '^@application/(.*)$': '<rootDir>/src/application/$1',
+    '^@common/(.*)$': '<rootDir>/src/common/$1',
     '^@config/(.*)$': '<rootDir>/src/config/$1',
     '^@contract/(.*)$': '<rootDir>/src/contract/$1',
     '^@db/(.*)$': '<rootDir>/src/db/$1',

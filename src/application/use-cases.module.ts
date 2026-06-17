@@ -3,14 +3,18 @@ import { Module } from '@nestjs/common';
 import { InfraModule } from '@infra/infra.module';
 import {
   CreateServiceCategoryUseCase,
+  CreateCustomerAddressUseCase,
   CreateServiceTypeUseCase,
   GetCurrentUserUseCase,
+  ListCustomerAddressesUseCase,
   ListServiceCategoriesUseCase,
+  ListServiceAreasUseCase,
   ListServiceTypesUseCase,
   LoginUseCase,
   RefreshSessionUseCase,
   RegisterCustomerUseCase,
   UpdateServiceCategoryUseCase,
+  UpdateCustomerAddressUseCase,
   UpdateServiceTypeUseCase,
 } from '@application/use-cases';
 
@@ -21,6 +25,10 @@ const useCases = [
   GetCurrentUserUseCase,
   ListServiceCategoriesUseCase,
   ListServiceTypesUseCase,
+  ListServiceAreasUseCase,
+  CreateCustomerAddressUseCase,
+  ListCustomerAddressesUseCase,
+  UpdateCustomerAddressUseCase,
   CreateServiceCategoryUseCase,
   UpdateServiceCategoryUseCase,
   CreateServiceTypeUseCase,

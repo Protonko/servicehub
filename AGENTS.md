@@ -51,13 +51,13 @@ Project agent role prompts live in:
 
 Before planning, specifying, implementing, or reviewing a feature, check this routing table and read the matching `SKILL.md`.
 
-| Task | Skill | Agent Role |
-|---|---|---|
-| Generate or implement DDD/NestJS API slice | `.agents/skills/servicehub-ddd-api/SKILL.md` | `.agents/agents/feature-implementer.md` |
-| Review requirements or feature spec before implementation | `.agents/skills/servicehub-requirements-review/SKILL.md` | `.agents/agents/business-analyst.md` |
-| Review business behavior against stakeholder expectations | `.agents/skills/servicehub-stakeholder-review/SKILL.md` | `.agents/agents/stakeholder.md` |
-| Review or design tests | `.agents/skills/servicehub-tester-review/SKILL.md` | `.agents/agents/tester.md` |
-| Review architecture, layering, transactions, module boundaries | `.agents/skills/servicehub-architect-review/SKILL.md` | `.agents/agents/architect.md` |
+| Task                                                           | Skill                                                    | Agent Role                              |
+| -------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------- |
+| Generate or implement DDD/NestJS API slice                     | `.agents/skills/servicehub-ddd-api/SKILL.md`             | `.agents/agents/feature-implementer.md` |
+| Review requirements or feature spec before implementation      | `.agents/skills/servicehub-requirements-review/SKILL.md` | `.agents/agents/business-analyst.md`    |
+| Review business behavior against stakeholder expectations      | `.agents/skills/servicehub-stakeholder-review/SKILL.md`  | `.agents/agents/stakeholder.md`         |
+| Review or design tests                                         | `.agents/skills/servicehub-tester-review/SKILL.md`       | `.agents/agents/tester.md`              |
+| Review architecture, layering, transactions, module boundaries | `.agents/skills/servicehub-architect-review/SKILL.md`    | `.agents/agents/architect.md`           |
 
 For feature work, default sequence:
 
@@ -325,6 +325,15 @@ For non-trivial domain models, prefer a folder per model with `*.model.ts`,
 `*.props.ts`, and `index.ts`; do not use the `Entity` suffix for domain models.
 
 Avoid generic helper abstractions until duplication is real and obvious.
+
+Framework-neutral shared helpers live under `src/common`. Use one file per
+utility, named in kebab-case after the exported helper, and avoid broad bucket
+files such as `string.utils.ts`. Shared helpers should accept ordinary values;
+framework callback shapes, decorators, and adapters stay in the owning layer.
+
+API response envelope factories live under `src/api/http/factories`. Use a
+named factory object when the helper represents an API contract, and do not use
+base controller inheritance for stateless response factories.
 
 Add comments only when they explain non-obvious business or transactional behavior.
 

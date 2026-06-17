@@ -19,6 +19,7 @@
     "paths": {
       "@api/*": ["src/api/*"],
       "@application/*": ["src/application/*"],
+      "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
       "@contract/*": ["src/contract/*"],
       "@db/*": ["src/db/*"],

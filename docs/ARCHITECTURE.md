@@ -107,6 +107,8 @@ src/
       service-catalog.controller.ts
       inventory.controller.ts
       reports.controller.ts
+      factories/
+        api-error-response.factory.ts
 
   application/
     application.module.ts
@@ -198,6 +200,10 @@ src/
 
   config/
     config.ts
+
+  common/
+    utils/
+      trim-string.ts
 ```
 
 This structure can start smaller. Add folders only when there is real code for them.

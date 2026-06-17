@@ -34,6 +34,7 @@ import {
 } from './cookies/auth-cookie.helper';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LoginRequestDto, RegisterRequestDto, toAuthUserResponse } from './dto/auth.dto';
+import { ApiErrorResponseFactory } from './factories/api-error-response.factory';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 interface HeaderRequest {
@@ -125,28 +126,20 @@ export class AuthController {
   private mapAuthError(error: unknown): never {
     if (error instanceof DuplicateEmailError) {
       throw new ConflictException(
-        this.createErrorResponse('EMAIL_ALREADY_REGISTERED', error.message),
+        ApiErrorResponseFactory.create('EMAIL_ALREADY_REGISTERED', error.message),
       );
     }
 
     if (error instanceof InvalidCredentialsError || error instanceof UnauthenticatedError) {
-      throw new UnauthorizedException(this.createErrorResponse('UNAUTHENTICATED', error.message));
+      throw new UnauthorizedException(
+        ApiErrorResponseFactory.create('UNAUTHENTICATED', error.message),
+      );
     }
 
     if (error instanceof InactiveUserError) {
-      throw new ForbiddenException(this.createErrorResponse('USER_INACTIVE', error.message));
+      throw new ForbiddenException(ApiErrorResponseFactory.create('USER_INACTIVE', error.message));
     }
 
     throw error;
-  }
-
-  private createErrorResponse(code: string, message: string) {
-    return {
-      error: {
-        code,
-        message,
-        details: {},
-      },
-    };
   }
 }

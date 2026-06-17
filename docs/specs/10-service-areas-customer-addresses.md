@@ -100,9 +100,9 @@ Response DTO:
   "data": [
     {
       "id": "uuid",
-      "code": "CENTRAL",
-      "name": "Central Service Area",
-      "description": "Primary central operating area."
+      "code": "US_CA_SF_BAY",
+      "name": "San Francisco Bay Area",
+      "description": "San Francisco Bay Area operating zone."
     }
   ]
 }
@@ -146,8 +146,8 @@ Response DTO:
     "customerId": "uuid",
     "serviceArea": {
       "id": "uuid",
-      "code": "CENTRAL",
-      "name": "Central Service Area",
+      "code": "US_CA_SF_BAY",
+      "name": "San Francisco Bay Area",
       "isActive": true
     },
     "line1": "12 Rustaveli Avenue",
@@ -195,8 +195,8 @@ Response DTO:
       "customerId": "uuid",
       "serviceArea": {
         "id": "uuid",
-        "code": "CENTRAL",
-        "name": "Central Service Area",
+        "code": "US_CA_SF_BAY",
+        "name": "San Francisco Bay Area",
         "isActive": true
       },
       "line1": "12 Rustaveli Avenue",
@@ -257,8 +257,8 @@ Response DTO:
     "customerId": "uuid",
     "serviceArea": {
       "id": "uuid",
-      "code": "CENTRAL",
-      "name": "Central Service Area",
+      "code": "US_CA_SF_BAY",
+      "name": "San Francisco Bay Area",
       "isActive": true
     },
     "line1": "14 Rustaveli Avenue",
@@ -334,8 +334,8 @@ test fixtures may insert an inactive service area for rejection paths
 Initial seed rows:
 
 ```text
-CENTRAL - Central Service Area
-NORTH - North Service Area
+US_CA_SF_BAY - San Francisco Bay Area
+US_NY_NYC - New York City Metro
 ```
 
 ### customer_addresses
@@ -424,7 +424,7 @@ repositories/queries: ServiceAreaReadQuery
 
 ```text
 input: actor user id, serviceAreaId, line1, line2, city, postalCode, notes
-output: created customer address summary
+output: created CustomerAddressWithServiceArea domain composite
 loaded data: active service area
 domain policies: CustomerAddress ownership is assigned from authenticated customer actor
 repositories/queries: ServiceAreaReadQuery, CustomerAddressRepository
@@ -434,7 +434,7 @@ repositories/queries: ServiceAreaReadQuery, CustomerAddressRepository
 
 ```text
 input: actor user id
-output: customer-owned address summaries
+output: customer-owned CustomerAddressWithServiceArea domain composites
 loaded data: customer_addresses joined to service_areas
 domain policies: address visibility is scoped by customer id
 repositories/queries: CustomerAddressRepository
@@ -444,7 +444,7 @@ repositories/queries: CustomerAddressRepository
 
 ```text
 input: actor user id, addressId, optional serviceAreaId, optional address fields
-output: updated customer address summary
+output: updated CustomerAddressWithServiceArea domain composite
 loaded data: address scoped to customer id, active service area if serviceAreaId changes
 domain policies: customer owns address
 repositories/queries: ServiceAreaReadQuery, CustomerAddressRepository

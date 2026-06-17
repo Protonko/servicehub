@@ -37,6 +37,7 @@ import {
   toServiceCategoryAdminResponse,
   toServiceTypeAdminResponse,
 } from './dto/service-catalog-admin.dto';
+import { ApiErrorResponseFactory } from './factories/api-error-response.factory';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 
@@ -109,57 +110,49 @@ export class AdminServiceCatalogController {
 
   private mapServiceCatalogAdminError(error: unknown): never {
     if (error instanceof EmptyServiceCatalogUpdateError) {
-      throw new BadRequestException(this.createErrorResponse('EMPTY_UPDATE', error.message));
+      throw new BadRequestException(ApiErrorResponseFactory.create('EMPTY_UPDATE', error.message));
     }
 
     if (error instanceof DuplicateServiceCategoryCodeError) {
       throw new ConflictException(
-        this.createErrorResponse('SERVICE_CATEGORY_CODE_ALREADY_EXISTS', error.message),
+        ApiErrorResponseFactory.create('SERVICE_CATEGORY_CODE_ALREADY_EXISTS', error.message),
       );
     }
 
     if (error instanceof DuplicateServiceTypeCodeError) {
       throw new ConflictException(
-        this.createErrorResponse('SERVICE_TYPE_CODE_ALREADY_EXISTS', error.message),
+        ApiErrorResponseFactory.create('SERVICE_TYPE_CODE_ALREADY_EXISTS', error.message),
       );
     }
 
     if (error instanceof ServiceTypeOtherAlreadyExistsError) {
       throw new ConflictException(
-        this.createErrorResponse('SERVICE_TYPE_OTHER_ALREADY_EXISTS', error.message),
+        ApiErrorResponseFactory.create('SERVICE_TYPE_OTHER_ALREADY_EXISTS', error.message),
       );
     }
 
     if (error instanceof ServiceCategoryNotFoundError) {
       throw new NotFoundException(
-        this.createErrorResponse('SERVICE_CATEGORY_NOT_FOUND', error.message),
+        ApiErrorResponseFactory.create('SERVICE_CATEGORY_NOT_FOUND', error.message),
       );
     }
 
     if (error instanceof ServiceTypeNotFoundError) {
       throw new NotFoundException(
-        this.createErrorResponse('SERVICE_TYPE_NOT_FOUND', error.message),
+        ApiErrorResponseFactory.create('SERVICE_TYPE_NOT_FOUND', error.message),
       );
     }
 
     if (error instanceof SlaPolicyNotFoundError) {
-      throw new NotFoundException(this.createErrorResponse('SLA_POLICY_NOT_FOUND', error.message));
+      throw new NotFoundException(
+        ApiErrorResponseFactory.create('SLA_POLICY_NOT_FOUND', error.message),
+      );
     }
 
     if (error instanceof SkillNotFoundError) {
-      throw new NotFoundException(this.createErrorResponse('SKILL_NOT_FOUND', error.message));
+      throw new NotFoundException(ApiErrorResponseFactory.create('SKILL_NOT_FOUND', error.message));
     }
 
     throw error;
-  }
-
-  private createErrorResponse(code: string, message: string) {
-    return {
-      error: {
-        code,
-        message,
-        details: {},
-      },
-    };
   }
 }
