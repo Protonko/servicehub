@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
+import { requireNonBlankString } from '@common/utils/require-non-blank-string';
+
 import {
   CreateServiceTypeInput,
   ServiceTypeProps,
@@ -7,16 +9,6 @@ import {
 } from './service-type.props';
 
 const normalizeCode = (code: string): string => code.trim().toUpperCase();
-
-const requireNonBlank = (value: string, fieldName: string): string => {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    throw new Error(`${fieldName} must not be blank`);
-  }
-
-  return trimmed;
-};
 
 const requirePositiveInteger = (value: number, fieldName: string): number => {
   if (!Number.isInteger(value) || value <= 0) {
@@ -36,8 +28,8 @@ export class ServiceType {
       id: randomUUID(),
       categoryId: input.categoryId,
       slaPolicyId: input.slaPolicyId,
-      code: requireNonBlank(normalizeCode(input.code), 'code'),
-      name: requireNonBlank(input.name, 'name'),
+      code: requireNonBlankString(normalizeCode(input.code), 'code'),
+      name: requireNonBlankString(input.name, 'name'),
       description: input.description ?? null,
       defaultPriority: input.defaultPriority,
       estimatedDurationMinutes: requirePositiveInteger(
@@ -53,8 +45,8 @@ export class ServiceType {
   static rehydrate(props: ServiceTypeProps): ServiceType {
     return new ServiceType({
       ...props,
-      code: requireNonBlank(normalizeCode(props.code), 'code'),
-      name: requireNonBlank(props.name, 'name'),
+      code: requireNonBlankString(normalizeCode(props.code), 'code'),
+      name: requireNonBlankString(props.name, 'name'),
       estimatedDurationMinutes: requirePositiveInteger(
         props.estimatedDurationMinutes,
         'estimatedDurationMinutes',

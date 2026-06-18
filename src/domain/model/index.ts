@@ -8,6 +8,12 @@ export type {
   CustomerAddressWithServiceArea,
   UpdateCustomerAddressInput,
 } from './customer-address';
+export { ServiceRequest, ServiceRequestStatus, SERVICE_REQUEST_STATUSES } from './service-request';
+export type {
+  CancelServiceRequestInput,
+  CreateServiceRequestInput,
+  ServiceRequestProps,
+} from './service-request';
 export { ServiceCategory } from './service-category';
 export type {
   CreateServiceCategoryInput,

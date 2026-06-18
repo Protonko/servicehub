@@ -1,11 +1,15 @@
-import { trimString } from './trim-string';
+export function trimStringToNull(value: string | null | undefined): string | null;
+export function trimStringToNull(value: unknown): unknown;
+export function trimStringToNull(value: unknown): unknown {
+  if (value === undefined || value === null) {
+    return null;
+  }
 
-export const trimStringToNull = (value: unknown): unknown => {
-  if (value === null || value === undefined) {
+  if (typeof value !== 'string') {
     return value;
   }
 
-  const trimmed = trimString(value);
+  const trimmed = value.trim();
 
   return trimmed === '' ? null : trimmed;
-};
+}

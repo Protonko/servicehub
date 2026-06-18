@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
+import { requireNonBlankString } from '@common/utils/require-non-blank-string';
+
 import {
   CreateServiceCategoryInput,
   ServiceCategoryProps,
@@ -8,24 +10,14 @@ import {
 
 const normalizeCode = (code: string): string => code.trim().toUpperCase();
 
-const requireNonBlank = (value: string, fieldName: string): string => {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    throw new Error(`${fieldName} must not be blank`);
-  }
-
-  return trimmed;
-};
-
 export class ServiceCategory {
   private constructor(private readonly props: ServiceCategoryProps) {}
 
   static create(input: CreateServiceCategoryInput): ServiceCategory {
     return new ServiceCategory({
       id: randomUUID(),
-      code: requireNonBlank(normalizeCode(input.code), 'code'),
-      name: requireNonBlank(input.name, 'name'),
+      code: requireNonBlankString(normalizeCode(input.code), 'code'),
+      name: requireNonBlankString(input.name, 'name'),
       description: input.description ?? null,
       isActive: input.isActive ?? true,
     });
@@ -34,8 +26,8 @@ export class ServiceCategory {
   static rehydrate(props: ServiceCategoryProps): ServiceCategory {
     return new ServiceCategory({
       ...props,
-      code: requireNonBlank(normalizeCode(props.code), 'code'),
-      name: requireNonBlank(props.name, 'name'),
+      code: requireNonBlankString(normalizeCode(props.code), 'code'),
+      name: requireNonBlankString(props.name, 'name'),
     });
   }
 

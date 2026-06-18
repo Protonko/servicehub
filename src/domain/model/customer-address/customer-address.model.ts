@@ -1,30 +1,13 @@
 import { randomUUID } from 'node:crypto';
 
+import { requireNonBlankString } from '@common/utils/require-non-blank-string';
+import { trimStringToNull } from '@common/utils/trim-string-to-null';
+
 import {
   CreateCustomerAddressInput,
   CustomerAddressProps,
   UpdateCustomerAddressInput,
 } from './customer-address.props';
-
-const requireNonBlank = (value: string, fieldName: string): string => {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    throw new Error(`${fieldName} must not be blank`);
-  }
-
-  return trimmed;
-};
-
-const normalizeNullableString = (value: string | null | undefined): string | null => {
-  if (value === undefined || value === null) {
-    return null;
-  }
-
-  const trimmed = value.trim();
-
-  return trimmed ? trimmed : null;
-};
 
 export class CustomerAddress {
   private constructor(private readonly props: CustomerAddressProps) {}
@@ -34,22 +17,22 @@ export class CustomerAddress {
       id: randomUUID(),
       customerId: input.customerId,
       serviceAreaId: input.serviceAreaId,
-      line1: requireNonBlank(input.line1, 'line1'),
-      line2: normalizeNullableString(input.line2),
-      city: requireNonBlank(input.city, 'city'),
-      postalCode: normalizeNullableString(input.postalCode),
-      notes: normalizeNullableString(input.notes),
+      line1: requireNonBlankString(input.line1, 'line1'),
+      line2: trimStringToNull(input.line2),
+      city: requireNonBlankString(input.city, 'city'),
+      postalCode: trimStringToNull(input.postalCode),
+      notes: trimStringToNull(input.notes),
     });
   }
 
   static rehydrate(props: CustomerAddressProps): CustomerAddress {
     return new CustomerAddress({
       ...props,
-      line1: requireNonBlank(props.line1, 'line1'),
-      line2: normalizeNullableString(props.line2),
-      city: requireNonBlank(props.city, 'city'),
-      postalCode: normalizeNullableString(props.postalCode),
-      notes: normalizeNullableString(props.notes),
+      line1: requireNonBlankString(props.line1, 'line1'),
+      line2: trimStringToNull(props.line2),
+      city: requireNonBlankString(props.city, 'city'),
+      postalCode: trimStringToNull(props.postalCode),
+      notes: trimStringToNull(props.notes),
     });
   }
 

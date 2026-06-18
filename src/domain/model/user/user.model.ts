@@ -1,18 +1,10 @@
 import { randomUUID } from 'node:crypto';
 
+import { requireNonBlankString } from '@common/utils/require-non-blank-string';
+
 import { CreateUserInput, UserProps } from './user.props';
 
 const normalizeEmail = (email: string): string => email.trim().toLowerCase();
-
-const requireNonBlank = (value: string, fieldName: string): string => {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    throw new Error(`${fieldName} must not be blank`);
-  }
-
-  return trimmed;
-};
 
 const normalizeRoles = (roleCodes: UserProps['roleCodes']): UserProps['roleCodes'] => {
   const uniqueRoleCodes = [...new Set(roleCodes)];
@@ -30,9 +22,9 @@ export class User {
   static create(input: CreateUserInput): User {
     return new User({
       id: randomUUID(),
-      email: requireNonBlank(normalizeEmail(input.email), 'email'),
-      passwordHash: requireNonBlank(input.passwordHash, 'passwordHash'),
-      fullName: requireNonBlank(input.fullName, 'fullName'),
+      email: requireNonBlankString(normalizeEmail(input.email), 'email'),
+      passwordHash: requireNonBlankString(input.passwordHash, 'passwordHash'),
+      fullName: requireNonBlankString(input.fullName, 'fullName'),
       phone: input.phone?.trim() || null,
       isActive: true,
       roleCodes: normalizeRoles(input.roleCodes),
@@ -42,9 +34,9 @@ export class User {
   static rehydrate(props: UserProps): User {
     return new User({
       ...props,
-      email: requireNonBlank(normalizeEmail(props.email), 'email'),
-      passwordHash: requireNonBlank(props.passwordHash, 'passwordHash'),
-      fullName: requireNonBlank(props.fullName, 'fullName'),
+      email: requireNonBlankString(normalizeEmail(props.email), 'email'),
+      passwordHash: requireNonBlankString(props.passwordHash, 'passwordHash'),
+      fullName: requireNonBlankString(props.fullName, 'fullName'),
       phone: props.phone?.trim() || null,
       roleCodes: normalizeRoles(props.roleCodes),
     });

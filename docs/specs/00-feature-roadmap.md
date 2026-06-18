@@ -52,8 +52,8 @@ Current baseline:
 | 07 | Service catalog schema and seeds | done | `07-service-catalog-schema-seeds.md` |
 | 08 | Service catalog read API | done | `08-service-catalog-read-api.md` |
 | 09 | Admin service catalog management | done | `09-admin-service-catalog-management.md` |
-| 10 | Service areas and customer addresses | specified | `10-service-areas-customer-addresses.md` |
-| 11 | Service request domain model | planned | `11-service-request-domain-model.md` |
+| 10 | Service areas and customer addresses | done | `10-service-areas-customer-addresses.md` |
+| 11 | Service request domain model | done | `11-service-request-domain-model.md` |
 | 12 | Create service request | planned | `12-create-service-request.md` |
 | 13 | Request read models | planned | `13-request-read-models.md` |
 | 14 | Dispatcher queue | planned | `14-dispatcher-queue.md` |
@@ -610,7 +610,7 @@ docs/specs/09-admin-service-catalog-management.md
 Status:
 
 ```text
-specified
+done
 ```
 
 Goal:
@@ -670,7 +670,7 @@ docs/specs/10-service-areas-customer-addresses.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
