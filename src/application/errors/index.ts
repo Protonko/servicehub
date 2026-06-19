@@ -19,3 +19,10 @@ export {
   SkillNotFoundError,
   SlaPolicyNotFoundError,
 } from './service-catalog-admin.errors';
+export {
+  ServiceRequestAddressNotFoundError,
+  ServiceRequestCategoryNotFoundError,
+  ServiceRequestPreferredWindowInPastError,
+  ServiceRequestServiceTypeCategoryMismatchError,
+  ServiceRequestServiceTypeNotFoundError,
+} from './service-request.errors';

@@ -20,6 +20,7 @@ describe('Service catalog admin use cases', () => {
       activeSlaPolicyExists: jest.fn(),
       findActiveSkillIds: jest.fn(),
       findServiceTypeById: jest.fn(),
+      findActiveServiceTypeForRequest: jest.fn(),
       findServiceTypeByCategoryAndCode: jest.fn(),
       findOtherServiceTypeInCategory: jest.fn(),
       saveServiceType: jest.fn(),

@@ -10,6 +10,7 @@ import { HealthController } from './health.controller';
 import { RolesGuard } from './guards/roles.guard';
 import { ServiceAreasController } from './service-areas.controller';
 import { ServiceCatalogController } from './service-catalog.controller';
+import { ServiceRequestsController } from './service-requests.controller';
 
 @Module({
   imports: [ApplicationModule, InfraModule],
@@ -20,6 +21,7 @@ import { ServiceCatalogController } from './service-catalog.controller';
     AdminServiceCatalogController,
     ServiceAreasController,
     CustomerAddressesController,
+    ServiceRequestsController,
   ],
   providers: [JwtAuthGuard, RolesGuard],
 })

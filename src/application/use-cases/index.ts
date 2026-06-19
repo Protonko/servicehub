@@ -1,5 +1,6 @@
 export { CreateServiceCategoryUseCase } from './commands/create-service-category/create-service-category.use-case';
 export { CreateCustomerAddressUseCase } from './commands/create-customer-address/create-customer-address.use-case';
+export { CreateServiceRequestUseCase } from './commands/create-service-request/create-service-request.use-case';
 export { CreateServiceTypeUseCase } from './commands/create-service-type/create-service-type.use-case';
 export { LoginUseCase } from './commands/login/login.use-case';
 export { RefreshSessionUseCase } from './commands/refresh-session/refresh-session.use-case';

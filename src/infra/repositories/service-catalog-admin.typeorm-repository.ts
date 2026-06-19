@@ -8,7 +8,10 @@ import { ServiceTypeEntity } from '@db/entities/service-type.entity';
 import { SkillEntity } from '@db/entities/skill.entity';
 import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
 import { ServiceCategory, ServiceType } from '@domain/model';
-import { ServiceCatalogAdminRepository } from '@domain/repositories';
+import {
+  ServiceCatalogAdminRepository,
+  ServiceRequestCatalogSnapshot,
+} from '@domain/repositories/service-catalog-admin.repository';
 import { ServiceCatalogAdminMapper } from '../mappers/service-catalog-admin.mapper';
 
 @Injectable()
@@ -76,6 +79,42 @@ export class ServiceCatalogAdminTypeOrmRepository implements ServiceCatalogAdmin
     });
 
     return serviceType ? ServiceCatalogAdminMapper.toServiceTypeDomain(serviceType) : null;
+  }
+
+  async findActiveServiceTypeForRequest(
+    serviceTypeId: string,
+  ): Promise<ServiceRequestCatalogSnapshot | null> {
+    const serviceType = await this.serviceTypeRepository.findOne({
+      where: {
+        id: serviceTypeId,
+        isActive: true,
+        category: {
+          isActive: true,
+        },
+        slaPolicy: {
+          isActive: true,
+        },
+      },
+      relations: {
+        category: true,
+        slaPolicy: true,
+        requiredSkills: true,
+      },
+    });
+
+    if (!serviceType || !serviceType.slaPolicy) {
+      return null;
+    }
+
+    return {
+      serviceType: ServiceCatalogAdminMapper.toServiceTypeDomain(serviceType),
+      slaPolicy: {
+        id: serviceType.slaPolicy.id,
+        assignmentDeadlineMinutes: serviceType.slaPolicy.assignmentDeadlineMinutes,
+        completionDeadlineMinutes: serviceType.slaPolicy.completionDeadlineMinutes,
+        isActive: serviceType.slaPolicy.isActive,
+      },
+    };
   }
 
   async findServiceTypeByCategoryAndCode(

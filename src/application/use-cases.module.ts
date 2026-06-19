@@ -4,6 +4,7 @@ import { InfraModule } from '@infra/infra.module';
 import {
   CreateServiceCategoryUseCase,
   CreateCustomerAddressUseCase,
+  CreateServiceRequestUseCase,
   CreateServiceTypeUseCase,
   GetCurrentUserUseCase,
   ListCustomerAddressesUseCase,
@@ -33,6 +34,7 @@ const useCases = [
   UpdateServiceCategoryUseCase,
   CreateServiceTypeUseCase,
   UpdateServiceTypeUseCase,
+  CreateServiceRequestUseCase,
 ];
 
 @Module({
