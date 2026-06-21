@@ -55,7 +55,7 @@ Current baseline:
 | 10 | Service areas and customer addresses | done | `10-service-areas-customer-addresses.md` |
 | 11 | Service request domain model | done | `11-service-request-domain-model.md` |
 | 12 | Create service request | done | `12-create-service-request.md` |
-| 13 | Request read models | planned | `13-request-read-models.md` |
+| 13 | Request read models | done | `13-request-read-models.md` |
 | 14 | Dispatcher queue | planned | `14-dispatcher-queue.md` |
 | 15 | Triage workflow | planned | `15-triage-workflow.md` |
 | 16 | Technician profile persistence | planned | `16-technician-profile-persistence.md` |
@@ -789,7 +789,7 @@ docs/specs/12-create-service-request.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

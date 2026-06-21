@@ -23,6 +23,8 @@ export {
   ServiceRequestAddressNotFoundError,
   ServiceRequestCategoryNotFoundError,
   ServiceRequestPreferredWindowInPastError,
+  ServiceRequestNotFoundError,
+  ServiceRequestReadForbiddenError,
   ServiceRequestServiceTypeCategoryMismatchError,
   ServiceRequestServiceTypeNotFoundError,
 } from './service-request.errors';

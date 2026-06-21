@@ -7,3 +7,17 @@ export type {
   ServiceCategorySummary,
   ServiceTypeSummary,
 } from './service-catalog';
+export type {
+  ServiceRequestAddressDetail,
+  ServiceRequestAddressSummary,
+  ServiceRequestAttachmentSummary,
+  ServiceRequestCategorySummary,
+  ServiceRequestCustomerDetail,
+  ServiceRequestCustomerSummary,
+  ServiceRequestDetail,
+  ServiceRequestServiceAreaSummary,
+  ServiceRequestSkillSummary,
+  ServiceRequestSlaPolicySummary,
+  ServiceRequestSummary,
+  ServiceRequestTypeSummary,
+} from './service-request-read';

@@ -7,8 +7,12 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 
 import { ACCESS_TOKEN_COOKIE } from '@application/auth';
+import {
+  SERVICE_REQUEST_READ_QUERY,
+  ServiceRequestReadQuery,
+} from '@application/queries/service-request-read.query';
 import { AUTH_TOKEN_SERVICE, AuthTokenService } from '@contract/auth';
-import { RoleCode } from '@domain/model';
+import { RequestPriority, RoleCode, ServiceRequestStatus } from '@domain/model';
 import { AppModule } from '../../src/app.module';
 
 jest.setTimeout(30000);
@@ -22,16 +26,22 @@ const serviceTypeId = randomUUID();
 const otherServiceTypeId = randomUUID();
 const mismatchServiceTypeId = randomUUID();
 const skillId = randomUUID();
+const secondSkillId = randomUUID();
 const slaPolicyId = randomUUID();
 const triageSlaPolicyId = randomUUID();
 const serviceAreaId = randomUUID();
 const customerAddressId = randomUUID();
 const otherCustomerAddressId = randomUUID();
+const readRequestId = randomUUID();
+const otherCustomerReadRequestId = randomUUID();
+const firstAttachmentId = randomUUID();
+const secondAttachmentId = randomUUID();
 
 describe('Service requests API', () => {
   let app: INestApplication;
   let dataSource: DataSource;
   let authTokenService: AuthTokenService;
+  let serviceRequestReadQuery: ServiceRequestReadQuery;
   let httpServer: Server;
 
   beforeAll(async () => {
@@ -55,6 +65,7 @@ describe('Service requests API', () => {
 
     dataSource = app.get(DataSource);
     authTokenService = app.get<AuthTokenService>(AUTH_TOKEN_SERVICE);
+    serviceRequestReadQuery = app.get<ServiceRequestReadQuery>(SERVICE_REQUEST_READ_QUERY);
     httpServer = app.getHttpServer() as Server;
 
     await cleanupRows();
@@ -222,6 +233,207 @@ describe('Service requests API', () => {
     expect(response.body.error.code).toBe('SERVICE_TYPE_CATEGORY_MISMATCH');
   });
 
+  it('lists only customer-owned requests with pagination metadata', async () => {
+    const response = await request(httpServer)
+      .get('/api/v1/service-requests?limit=100&offset=0')
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(200);
+
+    expect(response.body.meta).toEqual({
+      limit: 100,
+      offset: 0,
+      total: response.body.data.length,
+    });
+    expect(response.body.data).toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: readRequestId })]),
+    );
+    expect(
+      response.body.data.every(
+        (item: { customer: { id: string } }) => item.customer.id === customerId,
+      ),
+    ).toBe(true);
+    expect(response.body.data.map((item: { id: string }) => item.id)).not.toContain(
+      otherCustomerReadRequestId,
+    );
+    const createdTimes = response.body.data.map((item: { createdAt: string }) =>
+      new Date(item.createdAt).getTime(),
+    );
+    expect(createdTimes).toEqual([...createdTimes].sort((left, right) => right - left));
+  });
+
+  it('applies combined filters and deterministic pagination', async () => {
+    const response = await request(httpServer)
+      .get('/api/v1/service-requests')
+      .query({
+        status: 'created',
+        priority: 'high',
+        categoryId,
+        serviceTypeId,
+        createdFrom: '2026-06-19T08:00:00.000Z',
+        createdTo: '2026-06-19T08:00:00.000Z',
+        limit: 1,
+        offset: 0,
+      })
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(200);
+
+    expect(response.body).toEqual({
+      data: [expect.objectContaining({ id: readRequestId, status: 'created', priority: 'high' })],
+      meta: { limit: 1, offset: 0, total: 1 },
+    });
+  });
+
+  it('queries PostgreSQL with scoped totals and aggregates joined detail rows without duplicates', async () => {
+    const searchResult = await serviceRequestReadQuery.search(
+      {
+        status: ServiceRequestStatus.Created,
+        priority: RequestPriority.High,
+        createdFrom: new Date('2026-06-19T08:00:00.000Z'),
+        createdTo: new Date('2026-06-19T08:00:00.000Z'),
+      },
+      { kind: 'customer', customerId },
+      { limit: 1, offset: 0 },
+    );
+
+    expect(searchResult).toEqual({
+      items: [expect.objectContaining({ id: readRequestId })],
+      total: 1,
+    });
+
+    const detail = await serviceRequestReadQuery.findById(readRequestId, {
+      kind: 'customer',
+      customerId,
+    });
+
+    expect(detail?.requiredSkills).toHaveLength(2);
+    expect(detail?.attachments).toHaveLength(2);
+    await expect(
+      serviceRequestReadQuery.findById(otherCustomerReadRequestId, {
+        kind: 'customer',
+        customerId,
+      }),
+    ).resolves.toBeNull();
+  });
+
+  it('returns request detail with ordered skill and attachment projections', async () => {
+    const response = await request(httpServer)
+      .get(`/api/v1/service-requests/${readRequestId}`)
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(200);
+
+    expect(response.body.data).toEqual(
+      expect.objectContaining({
+        id: readRequestId,
+        customer: expect.objectContaining({ id: customerId }),
+        category: expect.objectContaining({ id: categoryId }),
+        serviceType: expect.objectContaining({ id: serviceTypeId }),
+        address: expect.objectContaining({
+          id: customerAddressId,
+          serviceArea: expect.objectContaining({ id: serviceAreaId }),
+        }),
+        slaPolicy: expect.objectContaining({ id: slaPolicyId }),
+        requiredSkills: [
+          expect.objectContaining({ id: secondSkillId, name: 'Electrical Diagnostics' }),
+          expect.objectContaining({ id: skillId, name: 'Test Request Skill' }),
+        ],
+        attachments: [
+          expect.objectContaining({ id: firstAttachmentId, fileName: 'first.jpg' }),
+          expect.objectContaining({ id: secondAttachmentId, fileName: 'second.jpg' }),
+        ],
+      }),
+    );
+  });
+
+  it('conceals another customer request from customer list and detail', async () => {
+    await request(httpServer)
+      .get(`/api/v1/service-requests/${otherCustomerReadRequestId}`)
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(404)
+      .expect(({ body }) => {
+        expect(body.error.code).toBe('SERVICE_REQUEST_NOT_FOUND');
+      });
+  });
+
+  it.each([RoleCode.Dispatcher, RoleCode.Admin])(
+    'allows %s to list and read customer requests',
+    async (role) => {
+      const listResponse = await request(httpServer)
+        .get('/api/v1/service-requests')
+        .query({ serviceTypeId: otherServiceTypeId, limit: 100 })
+        .set('Cookie', authCookie(role))
+        .expect(200);
+
+      expect(listResponse.body.data).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: otherCustomerReadRequestId,
+            customer: expect.objectContaining({ id: otherCustomerId }),
+          }),
+        ]),
+      );
+
+      await request(httpServer)
+        .get(`/api/v1/service-requests/${otherCustomerReadRequestId}`)
+        .set('Cookie', authCookie(role))
+        .expect(200);
+    },
+  );
+
+  it('forbids technician read access and requires authentication', async () => {
+    await request(httpServer).get('/api/v1/service-requests').expect(401);
+    await request(httpServer).get(`/api/v1/service-requests/${readRequestId}`).expect(401);
+    await request(httpServer)
+      .get('/api/v1/service-requests')
+      .set('Cookie', authCookie(RoleCode.Technician))
+      .expect(403);
+    await request(httpServer)
+      .get(`/api/v1/service-requests/${readRequestId}`)
+      .set('Cookie', authCookie(RoleCode.Technician))
+      .expect(403);
+  });
+
+  it.each([
+    ['status', 'unknown'],
+    ['priority', 'unknown'],
+    ['categoryId', 'not-a-uuid'],
+    ['createdFrom', 'not-a-date'],
+    ['limit', '0'],
+    ['limit', '101'],
+    ['offset', '-1'],
+  ])('rejects invalid %s query values', async (parameter, value) => {
+    await request(httpServer)
+      .get('/api/v1/service-requests')
+      .query({ [parameter]: value })
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(400);
+  });
+
+  it('rejects an inverted creation date range', async () => {
+    await request(httpServer)
+      .get('/api/v1/service-requests')
+      .query({
+        createdFrom: '2026-06-20T00:00:00.000Z',
+        createdTo: '2026-06-19T00:00:00.000Z',
+      })
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(400);
+  });
+
+  it('returns an empty page for valid unknown filters and 404 for an unknown request', async () => {
+    const response = await request(httpServer)
+      .get('/api/v1/service-requests')
+      .query({ categoryId: randomUUID() })
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(200);
+
+    expect(response.body).toEqual({ data: [], meta: { limit: 20, offset: 0, total: 0 } });
+
+    await request(httpServer)
+      .get(`/api/v1/service-requests/${randomUUID()}`)
+      .set('Cookie', authCookie(RoleCode.Customer, customerId))
+      .expect(404);
+  });
+
   const authCookie = (role: RoleCode, userId = randomUUID()): string => {
     const tokens = authTokenService.issueTokens({
       sub: userId,
@@ -268,9 +480,16 @@ describe('Service requests API', () => {
     await dataSource.query(
       `
         INSERT INTO skills (id, code, name, description, is_active)
-        VALUES ($1, $2, 'Test Request Skill', 'Skill for request e2e test.', true)
+        VALUES
+          ($1, $2, 'Test Request Skill', 'Skill for request e2e test.', true),
+          ($3, $4, 'Electrical Diagnostics', 'Second skill for request reads.', false)
       `,
-      [skillId, `TEST_REQUEST_SKILL_${testRunId}`],
+      [
+        skillId,
+        `TEST_REQUEST_SKILL_${testRunId}`,
+        secondSkillId,
+        `TEST_REQUEST_SECOND_SKILL_${testRunId}`,
+      ],
     );
 
     await dataSource.query(
@@ -346,12 +565,107 @@ describe('Service requests API', () => {
 
     await dataSource.query(
       `
-        INSERT INTO customer_addresses (id, customer_id, service_area_id, line1, city)
+        INSERT INTO customer_addresses (
+          id,
+          customer_id,
+          service_area_id,
+          line1,
+          line2,
+          city,
+          postal_code,
+          notes
+        )
         VALUES
-          ($1, $2, $3, '12 Rustaveli Avenue', 'Tbilisi'),
-          ($4, $5, $3, '99 Hidden Street', 'Tbilisi')
+          ($1, $2, $3, '12 Rustaveli Avenue', 'Apartment 14', 'Tbilisi', '0108', 'Rear entrance'),
+          ($4, $5, $3, '99 Hidden Street', null, 'Tbilisi', null, null)
       `,
       [customerAddressId, customerId, serviceAreaId, otherCustomerAddressId, otherCustomerId],
+    );
+
+    await dataSource.query(
+      `
+        INSERT INTO service_requests (
+          id,
+          customer_id,
+          category_id,
+          service_type_id,
+          address_id,
+          sla_policy_id,
+          status,
+          priority,
+          description,
+          additional_contact_instructions,
+          preferred_start_at,
+          preferred_end_at,
+          estimated_duration_minutes,
+          assignment_deadline_at,
+          completion_deadline_at,
+          created_at,
+          updated_at
+        )
+        VALUES
+          (
+            $1, $2, $3, $4, $5, $6, 'created', 'high',
+            'Fixture request for read models.', 'Call before arrival.',
+            '2026-06-20T10:00:00.000Z', '2026-06-20T14:00:00.000Z', 120,
+            '2026-06-19T12:00:00.000Z', '2026-06-20T08:00:00.000Z',
+            '2026-06-19T08:00:00.000Z', '2026-06-19T08:00:00.000Z'
+          ),
+          (
+            $7, $8, $3, $9, $10, $11, 'needs_triage', 'normal',
+            'Another customer read fixture.', null,
+            '2026-06-21T10:00:00.000Z', '2026-06-21T14:00:00.000Z', 60,
+            '2026-06-20T12:00:00.000Z', '2026-06-21T08:00:00.000Z',
+            '2026-06-18T08:00:00.000Z', '2026-06-18T08:00:00.000Z'
+          )
+      `,
+      [
+        readRequestId,
+        customerId,
+        categoryId,
+        serviceTypeId,
+        customerAddressId,
+        slaPolicyId,
+        otherCustomerReadRequestId,
+        otherCustomerId,
+        otherServiceTypeId,
+        otherCustomerAddressId,
+        triageSlaPolicyId,
+      ],
+    );
+
+    await dataSource.query(
+      `
+        INSERT INTO service_request_required_skills (service_request_id, skill_id)
+        VALUES ($1, $2), ($1, $3)
+      `,
+      [readRequestId, skillId, secondSkillId],
+    );
+
+    await dataSource.query(
+      `
+        INSERT INTO service_request_attachments (
+          id,
+          service_request_id,
+          uploaded_by_user_id,
+          file_name,
+          mime_type,
+          storage_key,
+          kind,
+          created_at
+        )
+        VALUES
+          ($1, $2, $3, 'second.jpg', 'image/jpeg', $4, 'request_photo', '2026-06-19T08:02:00.000Z'),
+          ($5, $2, $3, 'first.jpg', 'image/jpeg', $6, 'request_photo', '2026-06-19T08:01:00.000Z')
+      `,
+      [
+        secondAttachmentId,
+        readRequestId,
+        customerId,
+        `uploads/${testRunId}/second.jpg`,
+        firstAttachmentId,
+        `uploads/${testRunId}/first.jpg`,
+      ],
     );
   };
 
@@ -398,7 +712,7 @@ describe('Service requests API', () => {
       categoryId,
       mismatchCategoryId,
     ]);
-    await dataSource.query('DELETE FROM skills WHERE id = $1', [skillId]);
+    await dataSource.query('DELETE FROM skills WHERE id IN ($1, $2)', [skillId, secondSkillId]);
     await dataSource.query('DELETE FROM sla_policies WHERE id IN ($1, $2)', [
       slaPolicyId,
       triageSlaPolicyId,

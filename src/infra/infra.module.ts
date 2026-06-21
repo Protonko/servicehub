@@ -12,6 +12,7 @@ import { UserEntity } from '@db/entities/user.entity';
 import { AUTH_TOKEN_SERVICE, PASSWORD_HASHER } from '@contract/auth';
 import { SERVICE_CATALOG_READ_QUERY } from '@application/queries/service-catalog-read.query';
 import { SERVICE_AREA_READ_QUERY } from '@application/queries/service-area-read.query';
+import { SERVICE_REQUEST_READ_QUERY } from '@application/queries/service-request-read.query';
 import {
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
@@ -23,6 +24,7 @@ import { ScryptPasswordHasher } from './auth/scrypt-password-hasher';
 import { QueueModule } from './queues/queue.module';
 import { ServiceAreaTypeOrmReadQuery } from './queries/service-area.typeorm-read-query';
 import { ServiceCatalogTypeOrmReadQuery } from './queries/service-catalog.typeorm-read-query';
+import { ServiceRequestTypeOrmReadQuery } from './queries/service-request/service-request.typeorm-read-query';
 import { CustomerAddressTypeOrmRepository } from './repositories/customer-address.typeorm-repository';
 import { ServiceCatalogAdminTypeOrmRepository } from './repositories/service-catalog-admin.typeorm-repository';
 import { ServiceRequestTypeOrmRepository } from './repositories/service-request.typeorm-repository';
@@ -62,6 +64,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     ServiceRequestTypeOrmRepository,
     ServiceCatalogTypeOrmReadQuery,
     ServiceAreaTypeOrmReadQuery,
+    ServiceRequestTypeOrmReadQuery,
     CustomerAddressTypeOrmRepository,
     ScryptPasswordHasher,
     HmacJwtTokenService,
@@ -80,6 +83,10 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     {
       provide: SERVICE_AREA_READ_QUERY,
       useExisting: ServiceAreaTypeOrmReadQuery,
+    },
+    {
+      provide: SERVICE_REQUEST_READ_QUERY,
+      useExisting: ServiceRequestTypeOrmReadQuery,
     },
     {
       provide: CUSTOMER_ADDRESS_REPOSITORY,
@@ -104,6 +111,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     SERVICE_CATALOG_ADMIN_REPOSITORY,
     SERVICE_CATALOG_READ_QUERY,
     SERVICE_AREA_READ_QUERY,
+    SERVICE_REQUEST_READ_QUERY,
     CUSTOMER_ADDRESS_REPOSITORY,
     SERVICE_REQUEST_REPOSITORY,
     PASSWORD_HASHER,

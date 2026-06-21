@@ -7,6 +7,7 @@ import {
   CreateServiceRequestUseCase,
   CreateServiceTypeUseCase,
   GetCurrentUserUseCase,
+  GetServiceRequestUseCase,
   ListCustomerAddressesUseCase,
   ListServiceCategoriesUseCase,
   ListServiceAreasUseCase,
@@ -14,6 +15,7 @@ import {
   LoginUseCase,
   RefreshSessionUseCase,
   RegisterCustomerUseCase,
+  SearchServiceRequestsUseCase,
   UpdateServiceCategoryUseCase,
   UpdateCustomerAddressUseCase,
   UpdateServiceTypeUseCase,
@@ -35,6 +37,8 @@ const useCases = [
   CreateServiceTypeUseCase,
   UpdateServiceTypeUseCase,
   CreateServiceRequestUseCase,
+  SearchServiceRequestsUseCase,
+  GetServiceRequestUseCase,
 ];
 
 @Module({

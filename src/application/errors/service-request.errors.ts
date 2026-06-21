@@ -27,3 +27,15 @@ export class ServiceRequestPreferredWindowInPastError extends Error {
     super('Preferred time window must be in the future');
   }
 }
+
+export class ServiceRequestNotFoundError extends Error {
+  constructor() {
+    super('Service request was not found');
+  }
+}
+
+export class ServiceRequestReadForbiddenError extends Error {
+  constructor() {
+    super('Actor is not allowed to read service requests');
+  }
+}
