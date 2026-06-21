@@ -6,6 +6,9 @@ import { ServiceAreaReadQuery } from '@application/queries/service-area-read.que
 import { ServiceAreaSummary } from '@application/read-models';
 import { ServiceAreaEntity } from '@db/entities/service-area.entity';
 
+import { ServiceAreaReadMapper } from './service-area-read.mapper';
+import { ServiceAreaRow } from './service-area-read.types';
+
 @Injectable()
 export class ServiceAreaTypeOrmReadQuery implements ServiceAreaReadQuery {
   constructor(
@@ -14,7 +17,7 @@ export class ServiceAreaTypeOrmReadQuery implements ServiceAreaReadQuery {
   ) {}
 
   async listActiveServiceAreas(): Promise<ServiceAreaSummary[]> {
-    return this.serviceAreaRepository
+    const rows = await this.serviceAreaRepository
       .createQueryBuilder('serviceArea')
       .select([
         'serviceArea.id AS "id"',
@@ -24,7 +27,9 @@ export class ServiceAreaTypeOrmReadQuery implements ServiceAreaReadQuery {
       ])
       .where('serviceArea.is_active = true')
       .orderBy('serviceArea.name', 'ASC')
-      .getRawMany<ServiceAreaSummary>();
+      .getRawMany<ServiceAreaRow>();
+
+    return rows.map((row) => ServiceAreaReadMapper.toSummary(row));
   }
 
   async activeServiceAreaExists(serviceAreaId: string): Promise<boolean> {

@@ -6,24 +6,9 @@ import { ServiceCatalogReadQuery } from '@application/queries/service-catalog-re
 import { ServiceCategorySummary, ServiceTypeSummary } from '@application/read-models';
 import { ServiceCategoryEntity } from '@db/entities/service-category.entity';
 import { ServiceTypeEntity } from '@db/entities/service-type.entity';
-import { RequestPriority } from '@domain/model';
 
-interface ServiceTypeRow {
-  serviceTypeId: string;
-  categoryId: string;
-  code: string;
-  name: string;
-  description: string | null;
-  defaultPriority: RequestPriority;
-  estimatedDurationMinutes: number;
-  isOther: boolean;
-  slaPolicyId: string;
-  slaPolicyCode: string;
-  slaPolicyName: string;
-  skillId: string | null;
-  skillCode: string | null;
-  skillName: string | null;
-}
+import { ServiceCatalogReadMapper } from './service-catalog-read.mapper';
+import { ServiceCategoryRow, ServiceTypeRow } from './service-catalog-read.types';
 
 @Injectable()
 export class ServiceCatalogTypeOrmReadQuery implements ServiceCatalogReadQuery {
@@ -35,7 +20,7 @@ export class ServiceCatalogTypeOrmReadQuery implements ServiceCatalogReadQuery {
   ) {}
 
   async listActiveCategories(): Promise<ServiceCategorySummary[]> {
-    const categories = await this.serviceCategoryRepository
+    const rows = await this.serviceCategoryRepository
       .createQueryBuilder('category')
       .select([
         'category.id AS "id"',
@@ -45,9 +30,9 @@ export class ServiceCatalogTypeOrmReadQuery implements ServiceCatalogReadQuery {
       ])
       .where('category.is_active = true')
       .orderBy('category.name', 'ASC')
-      .getRawMany<ServiceCategorySummary>();
+      .getRawMany<ServiceCategoryRow>();
 
-    return categories;
+    return rows.map((row) => ServiceCatalogReadMapper.toCategory(row));
   }
 
   async activeCategoryExists(categoryId: string): Promise<boolean> {
@@ -88,41 +73,6 @@ export class ServiceCatalogTypeOrmReadQuery implements ServiceCatalogReadQuery {
       .addOrderBy('skill.name', 'ASC')
       .getRawMany<ServiceTypeRow>();
 
-    const serviceTypes = new Map<string, ServiceTypeSummary>();
-
-    for (const row of rows) {
-      const serviceType = serviceTypes.get(row.serviceTypeId) ?? this.createServiceTypeSummary(row);
-
-      if (row.skillId && row.skillCode && row.skillName) {
-        serviceType.requiredSkills.push({
-          id: row.skillId,
-          code: row.skillCode,
-          name: row.skillName,
-        });
-      }
-
-      serviceTypes.set(row.serviceTypeId, serviceType);
-    }
-
-    return [...serviceTypes.values()];
-  }
-
-  private createServiceTypeSummary(row: ServiceTypeRow): ServiceTypeSummary {
-    return {
-      id: row.serviceTypeId,
-      categoryId: row.categoryId,
-      code: row.code,
-      name: row.name,
-      description: row.description,
-      defaultPriority: row.defaultPriority,
-      estimatedDurationMinutes: Number(row.estimatedDurationMinutes),
-      isOther: row.isOther,
-      slaPolicy: {
-        id: row.slaPolicyId,
-        code: row.slaPolicyCode,
-        name: row.slaPolicyName,
-      },
-      requiredSkills: [],
-    };
+    return ServiceCatalogReadMapper.toServiceTypes(rows);
   }
 }
