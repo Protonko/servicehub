@@ -28,4 +28,7 @@ export {
   ServiceRequestReadForbiddenError,
   ServiceRequestServiceTypeCategoryMismatchError,
   ServiceRequestServiceTypeNotFoundError,
+  ServiceRequestTriageDuplicateSkillsError,
+  ServiceRequestTriageForbiddenError,
+  ServiceRequestTriageSkillNotFoundError,
 } from './service-request.errors';

@@ -91,6 +91,8 @@ describe('CreateServiceRequestUseCase', () => {
             })),
           }),
       ),
+      findById: jest.fn(),
+      triage: jest.fn(),
     };
 
     useCase = new CreateServiceRequestUseCase(

@@ -23,6 +23,18 @@ export class ServiceRequestCannotBeTriagedError extends ServiceRequestDomainErro
   }
 }
 
+export class ServiceRequestOtherTypeCannotBeTriagedError extends ServiceRequestDomainError {
+  constructor() {
+    super('Other service type must be replaced during triage');
+  }
+}
+
+export class ServiceRequestTriageConflictError extends ServiceRequestDomainError {
+  constructor() {
+    super('Service request changed concurrently and could not be triaged');
+  }
+}
+
 export class ServiceRequestCannotBeCompletedError extends ServiceRequestDomainError {
   constructor() {
     super('Service request cannot be completed in its current status');

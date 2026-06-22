@@ -4,4 +4,5 @@ export type {
   CancelServiceRequestInput,
   CreateServiceRequestInput,
   ServiceRequestProps,
+  TriageServiceRequestInput,
 } from './service-request.props';

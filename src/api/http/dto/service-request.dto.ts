@@ -1,12 +1,17 @@
 import { Transform, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
+  ArrayUnique,
   IsArray,
   IsDateString,
   IsOptional,
   IsString,
+  IsEnum,
+  IsInt,
   IsUUID,
   MaxLength,
+  Max,
+  Min,
   MinLength,
   ValidateNested,
 } from 'class-validator';
@@ -14,6 +19,8 @@ import {
 import { trimString } from '@common/utils/trim-string';
 import { trimStringToNull } from '@common/utils/trim-string-to-null';
 import { CreatedServiceRequest, ServiceRequestAttachmentSnapshot } from '@domain/repositories';
+import { RequestPriority } from '@domain/model';
+import { TriagedServiceRequest } from '@domain/repositories';
 
 export class CreateServiceRequestAttachmentRequestDto {
   @Transform(({ value }) => trimString(value))
@@ -71,6 +78,28 @@ export class CreateServiceRequestRequestDto {
   attachments?: CreateServiceRequestAttachmentRequestDto[];
 }
 
+export class TriageServiceRequestRequestDto {
+  @IsUUID()
+  categoryId!: string;
+
+  @IsUUID()
+  serviceTypeId!: string;
+
+  @IsEnum(RequestPriority)
+  priority!: RequestPriority;
+
+  @IsInt()
+  @Min(1)
+  @Max(1440)
+  estimatedDurationMinutes!: number;
+
+  @IsArray()
+  @ArrayMaxSize(50)
+  @ArrayUnique()
+  @IsUUID(undefined, { each: true })
+  requiredSkillIds!: string[];
+}
+
 export interface ServiceRequestAttachmentResponseDto {
   id: string;
   fileName: string;
@@ -104,6 +133,44 @@ export interface ServiceRequestResponseDto {
 export interface ServiceRequestObjectResponseDto {
   data: ServiceRequestResponseDto;
 }
+
+export interface TriagedServiceRequestResponseDto {
+  id: string;
+  categoryId: string;
+  serviceTypeId: string;
+  slaPolicyId: string;
+  status: string;
+  priority: string;
+  estimatedDurationMinutes: number;
+  assignmentDeadlineAt: string;
+  completionDeadlineAt: string;
+  triagedAt: string;
+  requiredSkillIds: string[];
+  updatedAt: string;
+}
+
+export interface TriagedServiceRequestObjectResponseDto {
+  data: TriagedServiceRequestResponseDto;
+}
+
+export const toTriagedServiceRequestResponse = (
+  triaged: TriagedServiceRequest,
+): TriagedServiceRequestObjectResponseDto => ({
+  data: {
+    id: triaged.request.id,
+    categoryId: triaged.request.categoryId,
+    serviceTypeId: triaged.request.serviceTypeId,
+    slaPolicyId: triaged.request.slaPolicyId,
+    status: triaged.request.status,
+    priority: triaged.request.priority,
+    estimatedDurationMinutes: triaged.request.estimatedDurationMinutes,
+    assignmentDeadlineAt: triaged.request.assignmentDeadlineAt.toISOString(),
+    completionDeadlineAt: triaged.request.completionDeadlineAt.toISOString(),
+    triagedAt: (triaged.request.triagedAt ?? new Date(0)).toISOString(),
+    requiredSkillIds: triaged.requiredSkillIds,
+    updatedAt: (triaged.request.updatedAt ?? new Date(0)).toISOString(),
+  },
+});
 
 export const toServiceRequestResponse = (
   created: CreatedServiceRequest,

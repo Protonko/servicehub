@@ -11,12 +11,17 @@ import {
   CreatedServiceRequest,
   CreateServiceRequestPersistenceInput,
   ServiceRequestRepository,
+  TriagedServiceRequest,
+  TriageServiceRequestPersistenceInput,
 } from '@domain/repositories';
+import { ServiceRequest } from '@domain/model';
+import { ServiceRequestTriageConflictError } from '@domain/exceptions';
 import { ServiceRequestMapper } from '../mappers/service-request.mapper';
 
 const SERVICE_REQUEST_CREATED = 'ServiceRequestCreated';
 const SERVICE_REQUEST_AGGREGATE = 'service_request';
 const REQUEST_ATTACHMENT_KIND = 'request_photo';
+const SERVICE_REQUEST_TRIAGED = 'ServiceRequestTriaged';
 
 @Injectable()
 export class ServiceRequestTypeOrmRepository implements ServiceRequestRepository {
@@ -95,6 +100,101 @@ export class ServiceRequestTypeOrmRepository implements ServiceRequestRepository
     });
   }
 
+  async findById(requestId: string): Promise<ServiceRequest | null> {
+    const request = await this.dataSource.getRepository(ServiceRequestEntity).findOneBy({
+      id: requestId,
+    });
+
+    return request ? ServiceRequestMapper.toDomain(request) : null;
+  }
+
+  async triage(input: TriageServiceRequestPersistenceInput): Promise<TriagedServiceRequest> {
+    return this.dataSource.transaction(async (manager) => {
+      const current = await manager.findOne(ServiceRequestEntity, {
+        where: { id: input.request.id },
+        lock: { mode: 'pessimistic_write' },
+      });
+
+      if (!current || current.status !== String(input.expectedStatus)) {
+        throw new ServiceRequestTriageConflictError();
+      }
+
+      const oldRequiredSkills = await manager.find(ServiceRequestRequiredSkillEntity, {
+        where: { serviceRequestId: current.id },
+      });
+      const oldValue = this.createTriageAuditValue(
+        current,
+        oldRequiredSkills.map((requiredSkill) => requiredSkill.skillId),
+      );
+      const replacement = ServiceRequestMapper.toEntity(input.request);
+
+      Object.assign(current, {
+        categoryId: replacement.categoryId,
+        serviceTypeId: replacement.serviceTypeId,
+        slaPolicyId: replacement.slaPolicyId,
+        status: replacement.status,
+        priority: replacement.priority,
+        estimatedDurationMinutes: replacement.estimatedDurationMinutes,
+        assignmentDeadlineAt: replacement.assignmentDeadlineAt,
+        completionDeadlineAt: replacement.completionDeadlineAt,
+        triagedAt: replacement.triagedAt,
+      });
+
+      const savedRequest = await manager.save(ServiceRequestEntity, current);
+
+      await manager.delete(ServiceRequestRequiredSkillEntity, {
+        serviceRequestId: savedRequest.id,
+      });
+
+      if (input.requiredSkillIds.length > 0) {
+        await manager.insert(
+          ServiceRequestRequiredSkillEntity,
+          input.requiredSkillIds.map((skillId) => ({
+            serviceRequestId: savedRequest.id,
+            skillId,
+          })),
+        );
+      }
+
+      const newValue = this.createTriageAuditValue(savedRequest, input.requiredSkillIds);
+
+      await manager.save(AuditLogEntity, {
+        actorUserId: input.actorUserId,
+        action: SERVICE_REQUEST_TRIAGED,
+        entityType: SERVICE_REQUEST_AGGREGATE,
+        entityId: savedRequest.id,
+        oldValue,
+        newValue,
+        requestId: null,
+        correlationId: null,
+      });
+      await manager.insert(OutboxEventEntity, {
+        eventType: SERVICE_REQUEST_TRIAGED,
+        aggregateType: SERVICE_REQUEST_AGGREGATE,
+        aggregateId: savedRequest.id,
+        payload: {
+          requestId: savedRequest.id,
+          categoryId: savedRequest.categoryId,
+          serviceTypeId: savedRequest.serviceTypeId,
+          status: savedRequest.status,
+          priority: savedRequest.priority,
+          estimatedDurationMinutes: savedRequest.estimatedDurationMinutes,
+          requiredSkillIds: input.requiredSkillIds,
+          slaPolicyId: savedRequest.slaPolicyId,
+          assignmentDeadlineAt: savedRequest.assignmentDeadlineAt.toISOString(),
+          completionDeadlineAt: savedRequest.completionDeadlineAt.toISOString(),
+        },
+        status: 'pending',
+        attempts: 0,
+      });
+
+      return {
+        request: ServiceRequestMapper.toDomain(savedRequest),
+        requiredSkillIds: [...input.requiredSkillIds],
+      };
+    });
+  }
+
   private createAuditValue(
     request: ServiceRequestEntity,
     requiredSkillIds: string[],
@@ -112,6 +212,24 @@ export class ServiceRequestTypeOrmRepository implements ServiceRequestRepository
       preferredEndAt: request.preferredEndAt.toISOString(),
       assignmentDeadlineAt: request.assignmentDeadlineAt.toISOString(),
       completionDeadlineAt: request.completionDeadlineAt.toISOString(),
+      requiredSkillIds,
+    };
+  }
+
+  private createTriageAuditValue(
+    request: ServiceRequestEntity,
+    requiredSkillIds: string[],
+  ): Record<string, unknown> {
+    return {
+      categoryId: request.categoryId,
+      serviceTypeId: request.serviceTypeId,
+      slaPolicyId: request.slaPolicyId,
+      status: request.status,
+      priority: request.priority,
+      estimatedDurationMinutes: request.estimatedDurationMinutes,
+      assignmentDeadlineAt: request.assignmentDeadlineAt.toISOString(),
+      completionDeadlineAt: request.completionDeadlineAt.toISOString(),
+      triagedAt: request.triagedAt?.toISOString() ?? null,
       requiredSkillIds,
     };
   }

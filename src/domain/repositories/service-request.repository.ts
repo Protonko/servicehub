@@ -1,4 +1,4 @@
-import { ServiceRequest } from '@domain/model';
+import { ServiceRequest, ServiceRequestStatus } from '@domain/model';
 
 export const SERVICE_REQUEST_REPOSITORY = Symbol('SERVICE_REQUEST_REPOSITORY');
 
@@ -32,6 +32,20 @@ export interface CreateServiceRequestPersistenceInput {
   actorUserId: string;
 }
 
+export interface TriagedServiceRequest {
+  request: ServiceRequest;
+  requiredSkillIds: string[];
+}
+
+export interface TriageServiceRequestPersistenceInput {
+  request: ServiceRequest;
+  expectedStatus: ServiceRequestStatus;
+  requiredSkillIds: string[];
+  actorUserId: string;
+}
+
 export interface ServiceRequestRepository {
   create(input: CreateServiceRequestPersistenceInput): Promise<CreatedServiceRequest>;
+  findById(requestId: string): Promise<ServiceRequest | null>;
+  triage(input: TriageServiceRequestPersistenceInput): Promise<TriagedServiceRequest>;
 }

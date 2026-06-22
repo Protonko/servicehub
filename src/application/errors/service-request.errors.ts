@@ -39,3 +39,21 @@ export class ServiceRequestReadForbiddenError extends Error {
     super('Actor is not allowed to read service requests');
   }
 }
+
+export class ServiceRequestTriageForbiddenError extends Error {
+  constructor() {
+    super('Actor is not allowed to triage service requests');
+  }
+}
+
+export class ServiceRequestTriageSkillNotFoundError extends Error {
+  constructor() {
+    super('One or more active required skills were not found');
+  }
+}
+
+export class ServiceRequestTriageDuplicateSkillsError extends Error {
+  constructor() {
+    super('Required skill ids must be unique');
+  }
+}

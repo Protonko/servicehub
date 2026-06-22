@@ -14,4 +14,6 @@ export type {
   CreateServiceRequestPersistenceInput,
   ServiceRequestAttachmentSnapshot,
   ServiceRequestRepository,
+  TriagedServiceRequest,
+  TriageServiceRequestPersistenceInput,
 } from './service-request.repository';

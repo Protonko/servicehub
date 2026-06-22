@@ -15,6 +15,7 @@ import {
   CancelServiceRequestInput,
   CreateServiceRequestInput,
   ServiceRequestProps,
+  TriageServiceRequestInput,
 } from './service-request.props';
 import {
   ServiceRequestLifecycleAction,
@@ -94,15 +95,25 @@ export class ServiceRequest {
     });
   }
 
-  triage(triagedAt: Date = new Date()): ServiceRequest {
+  triage(input: TriageServiceRequestInput): ServiceRequest {
     const status = this.resolveLifecycleAction(
       ServiceRequestLifecycleAction.Triage,
       () => new ServiceRequestCannotBeTriagedError(),
     );
 
     return this.withProps({
+      categoryId: input.categoryId,
+      serviceTypeId: input.serviceTypeId,
+      slaPolicyId: input.slaPolicyId,
       status,
-      triagedAt: requireValidDate(triagedAt, 'triagedAt'),
+      priority: input.priority,
+      estimatedDurationMinutes: requirePositiveInteger(
+        input.estimatedDurationMinutes,
+        'estimatedDurationMinutes',
+      ),
+      assignmentDeadlineAt: requireValidDate(input.assignmentDeadlineAt, 'assignmentDeadlineAt'),
+      completionDeadlineAt: requireValidDate(input.completionDeadlineAt, 'completionDeadlineAt'),
+      triagedAt: requireValidDate(input.triagedAt ?? new Date(), 'triagedAt'),
     });
   }
 

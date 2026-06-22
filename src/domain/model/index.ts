@@ -13,6 +13,7 @@ export type {
   CancelServiceRequestInput,
   CreateServiceRequestInput,
   ServiceRequestProps,
+  TriageServiceRequestInput,
 } from './service-request';
 export { ServiceCategory } from './service-category';
 export type {

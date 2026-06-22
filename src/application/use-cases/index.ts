@@ -5,6 +5,7 @@ export { CreateServiceTypeUseCase } from './commands/create-service-type/create-
 export { LoginUseCase } from './commands/login/login.use-case';
 export { RefreshSessionUseCase } from './commands/refresh-session/refresh-session.use-case';
 export { RegisterCustomerUseCase } from './commands/register-customer/register-customer.use-case';
+export { TriageServiceRequestUseCase } from './commands/triage-service-request/triage-service-request.use-case';
 export { UpdateServiceCategoryUseCase } from './commands/update-service-category/update-service-category.use-case';
 export { UpdateCustomerAddressUseCase } from './commands/update-customer-address/update-customer-address.use-case';
 export { UpdateServiceTypeUseCase } from './commands/update-service-type/update-service-type.use-case';

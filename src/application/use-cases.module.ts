@@ -17,6 +17,7 @@ import {
   RefreshSessionUseCase,
   RegisterCustomerUseCase,
   SearchServiceRequestsUseCase,
+  TriageServiceRequestUseCase,
   UpdateServiceCategoryUseCase,
   UpdateCustomerAddressUseCase,
   UpdateServiceTypeUseCase,
@@ -41,6 +42,7 @@ const useCases = [
   CreateServiceRequestUseCase,
   SearchServiceRequestsUseCase,
   GetServiceRequestUseCase,
+  TriageServiceRequestUseCase,
 ];
 
 @Module({

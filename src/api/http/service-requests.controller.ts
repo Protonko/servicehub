@@ -8,6 +8,7 @@ import {
   NotFoundException,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -22,17 +23,28 @@ import {
   ServiceRequestReadForbiddenError,
   ServiceRequestServiceTypeCategoryMismatchError,
   ServiceRequestServiceTypeNotFoundError,
+  ServiceRequestTriageDuplicateSkillsError,
+  ServiceRequestTriageForbiddenError,
+  ServiceRequestTriageSkillNotFoundError,
 } from '@application/errors';
 import {
   CreateServiceRequestUseCase,
   GetServiceRequestUseCase,
   SearchServiceRequestsUseCase,
+  TriageServiceRequestUseCase,
 } from '@application/use-cases';
+import {
+  ServiceRequestCannotBeTriagedError,
+  ServiceRequestOtherTypeCannotBeTriagedError,
+  ServiceRequestTriageConflictError,
+} from '@domain/exceptions';
 import { RoleCode } from '@domain/model';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Roles } from './decorators/roles.decorator';
 import {
   CreateServiceRequestRequestDto,
+  TriageServiceRequestRequestDto,
+  toTriagedServiceRequestResponse,
   toServiceRequestResponse,
 } from './dto/service-request.dto';
 import {
@@ -51,6 +63,7 @@ export class ServiceRequestsController {
     private readonly createServiceRequestUseCase: CreateServiceRequestUseCase,
     private readonly searchServiceRequestsUseCase: SearchServiceRequestsUseCase,
     private readonly getServiceRequestUseCase: GetServiceRequestUseCase,
+    private readonly triageServiceRequestUseCase: TriageServiceRequestUseCase,
   ) {}
 
   @Post()
@@ -105,6 +118,30 @@ export class ServiceRequestsController {
       });
     } catch (error) {
       this.mapReadServiceRequestError(error);
+    }
+  }
+
+  @Patch(':requestId/triage')
+  @Roles(RoleCode.Dispatcher, RoleCode.Admin)
+  async triageRequest(
+    @CurrentUser() actor: AuthenticatedActor,
+    @Param('requestId', new ParseUUIDPipe()) requestId: string,
+    @Body() dto: TriageServiceRequestRequestDto,
+  ) {
+    try {
+      const result = await this.triageServiceRequestUseCase.execute({
+        actor,
+        requestId,
+        categoryId: dto.categoryId,
+        serviceTypeId: dto.serviceTypeId,
+        priority: dto.priority,
+        estimatedDurationMinutes: dto.estimatedDurationMinutes,
+        requiredSkillIds: dto.requiredSkillIds,
+      });
+
+      return toTriagedServiceRequestResponse(result.triaged);
+    } catch (error) {
+      this.mapTriageServiceRequestError(error);
     }
   }
 
@@ -167,6 +204,44 @@ export class ServiceRequestsController {
     if (error instanceof ServiceRequestReadForbiddenError) {
       throw new ForbiddenException(
         ApiErrorResponseFactory.create('SERVICE_REQUEST_READ_FORBIDDEN', error.message),
+      );
+    }
+
+    throw error;
+  }
+
+  private mapTriageServiceRequestError(error: unknown): never {
+    if (
+      error instanceof ServiceRequestNotFoundError ||
+      error instanceof ServiceRequestCategoryNotFoundError ||
+      error instanceof ServiceRequestServiceTypeNotFoundError ||
+      error instanceof ServiceRequestTriageSkillNotFoundError
+    ) {
+      throw new NotFoundException(
+        ApiErrorResponseFactory.create('SERVICE_REQUEST_TRIAGE_RESOURCE_NOT_FOUND', error.message),
+      );
+    }
+
+    if (error instanceof ServiceRequestTriageForbiddenError) {
+      throw new ForbiddenException(
+        ApiErrorResponseFactory.create('SERVICE_REQUEST_TRIAGE_FORBIDDEN', error.message),
+      );
+    }
+
+    if (error instanceof ServiceRequestTriageDuplicateSkillsError) {
+      throw new BadRequestException(
+        ApiErrorResponseFactory.create('SERVICE_REQUEST_TRIAGE_VALIDATION_FAILED', error.message),
+      );
+    }
+
+    if (
+      error instanceof ServiceRequestServiceTypeCategoryMismatchError ||
+      error instanceof ServiceRequestCannotBeTriagedError ||
+      error instanceof ServiceRequestOtherTypeCannotBeTriagedError ||
+      error instanceof ServiceRequestTriageConflictError
+    ) {
+      throw new ConflictException(
+        ApiErrorResponseFactory.create('SERVICE_REQUEST_TRIAGE_CONFLICT', error.message),
       );
     }
 

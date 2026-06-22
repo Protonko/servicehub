@@ -4,5 +4,7 @@ export {
   ServiceRequestCannotBeCancelledError,
   ServiceRequestCannotBeCompletedError,
   ServiceRequestCannotBeTriagedError,
+  ServiceRequestOtherTypeCannotBeTriagedError,
+  ServiceRequestTriageConflictError,
   ServiceRequestDomainError,
 } from './service-request.errors';

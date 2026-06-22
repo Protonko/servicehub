@@ -48,3 +48,14 @@ export interface CancelServiceRequestInput {
   cancelledAt?: Date;
   reason?: string | null;
 }
+
+export interface TriageServiceRequestInput {
+  categoryId: string;
+  serviceTypeId: string;
+  slaPolicyId: string;
+  priority: RequestPriority;
+  estimatedDurationMinutes: number;
+  assignmentDeadlineAt: Date;
+  completionDeadlineAt: Date;
+  triagedAt?: Date;
+}

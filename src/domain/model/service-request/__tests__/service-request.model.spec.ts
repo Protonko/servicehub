@@ -22,6 +22,17 @@ const baseCreateInput = {
   completionDeadlineAt: new Date('2026-06-19T10:00:00.000Z'),
 };
 
+const triageInput = {
+  categoryId: 'triaged-category-id',
+  serviceTypeId: 'triaged-service-type-id',
+  slaPolicyId: 'triaged-sla-policy-id',
+  priority: RequestPriority.High,
+  estimatedDurationMinutes: 120,
+  assignmentDeadlineAt: new Date('2026-06-18T12:00:00.000Z'),
+  completionDeadlineAt: new Date('2026-06-19T12:00:00.000Z'),
+  triagedAt: new Date('2026-06-18T10:05:00.000Z'),
+};
+
 describe('ServiceRequest', () => {
   it('starts normal service type requests in created status and normalizes text', () => {
     const request = ServiceRequest.create({
@@ -83,7 +94,7 @@ describe('ServiceRequest', () => {
       ...baseCreateInput,
       isOtherServiceType: true,
     })
-      .triage(new Date('2026-06-18T10:05:00.000Z'))
+      .triage(triageInput)
       .assign(new Date('2026-06-18T10:15:00.000Z'));
 
     expect(assignedCreatedRequest.status).toBe(ServiceRequestStatus.Assigned);
@@ -104,8 +115,8 @@ describe('ServiceRequest', () => {
       .complete();
     const cancelledRequest = request.cancel();
 
-    expect(() => completedRequest.triage()).toThrow(ServiceRequestCannotBeTriagedError);
-    expect(() => cancelledRequest.triage()).toThrow(ServiceRequestCannotBeTriagedError);
+    expect(() => completedRequest.triage(triageInput)).toThrow(ServiceRequestCannotBeTriagedError);
+    expect(() => cancelledRequest.triage(triageInput)).toThrow(ServiceRequestCannotBeTriagedError);
   });
 
   it('does not allow completed requests to be cancelled', () => {
