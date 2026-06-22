@@ -9,6 +9,7 @@ export {
   EmptyCustomerAddressUpdateError,
   ServiceAreaNotFoundError,
 } from './customer-address.errors';
+export { DispatcherQueueForbiddenError } from './dispatcher-queue.errors';
 export { ServiceCategoryNotFoundError } from './service-catalog.errors';
 export {
   DuplicateServiceCategoryCodeError,

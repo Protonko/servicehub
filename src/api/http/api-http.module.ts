@@ -5,6 +5,7 @@ import { InfraModule } from '@infra/infra.module';
 import { AdminServiceCatalogController } from './admin-service-catalog.controller';
 import { AuthController } from './auth.controller';
 import { CustomerAddressesController } from './customer-addresses.controller';
+import { DispatcherController } from './dispatcher.controller';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { HealthController } from './health.controller';
 import { RolesGuard } from './guards/roles.guard';
@@ -21,6 +22,7 @@ import { ServiceRequestsController } from './service-requests.controller';
     AdminServiceCatalogController,
     ServiceAreasController,
     CustomerAddressesController,
+    DispatcherController,
     ServiceRequestsController,
   ],
   providers: [JwtAuthGuard, RolesGuard],

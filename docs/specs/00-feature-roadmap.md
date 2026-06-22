@@ -840,7 +840,7 @@ docs/specs/13-request-read-models.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

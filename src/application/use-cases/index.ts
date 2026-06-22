@@ -9,6 +9,7 @@ export { UpdateServiceCategoryUseCase } from './commands/update-service-category
 export { UpdateCustomerAddressUseCase } from './commands/update-customer-address/update-customer-address.use-case';
 export { UpdateServiceTypeUseCase } from './commands/update-service-type/update-service-type.use-case';
 export { GetCurrentUserUseCase } from './queries/get-current-user/get-current-user.use-case';
+export { GetDispatcherQueueUseCase } from './queries/get-dispatcher-queue/get-dispatcher-queue.use-case';
 export { GetServiceRequestUseCase } from './queries/get-service-request/get-service-request.use-case';
 export { ListCustomerAddressesUseCase } from './queries/list-customer-addresses/list-customer-addresses.use-case';
 export { ListServiceCategoriesUseCase } from './queries/list-service-categories/list-service-categories.use-case';

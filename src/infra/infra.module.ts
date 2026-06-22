@@ -13,6 +13,7 @@ import { AUTH_TOKEN_SERVICE, PASSWORD_HASHER } from '@contract/auth';
 import { SERVICE_CATALOG_READ_QUERY } from '@application/queries/service-catalog-read.query';
 import { SERVICE_AREA_READ_QUERY } from '@application/queries/service-area-read.query';
 import { SERVICE_REQUEST_READ_QUERY } from '@application/queries/service-request-read.query';
+import { DISPATCHER_QUEUE_READ_QUERY } from '@application/queries/dispatcher-queue-read.query';
 import {
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
@@ -25,6 +26,7 @@ import { QueueModule } from './queues/queue.module';
 import { ServiceAreaTypeOrmReadQuery } from './queries/service-area/service-area.typeorm-read-query';
 import { ServiceCatalogTypeOrmReadQuery } from './queries/service-catalog/service-catalog.typeorm-read-query';
 import { ServiceRequestTypeOrmReadQuery } from './queries/service-request/service-request.typeorm-read-query';
+import { DispatcherQueueTypeOrmReadQuery } from './queries/dispatcher-queue/dispatcher-queue.typeorm-read-query';
 import { CustomerAddressTypeOrmRepository } from './repositories/customer-address.typeorm-repository';
 import { ServiceCatalogAdminTypeOrmRepository } from './repositories/service-catalog-admin.typeorm-repository';
 import { ServiceRequestTypeOrmRepository } from './repositories/service-request.typeorm-repository';
@@ -65,6 +67,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     ServiceCatalogTypeOrmReadQuery,
     ServiceAreaTypeOrmReadQuery,
     ServiceRequestTypeOrmReadQuery,
+    DispatcherQueueTypeOrmReadQuery,
     CustomerAddressTypeOrmRepository,
     ScryptPasswordHasher,
     HmacJwtTokenService,
@@ -87,6 +90,10 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     {
       provide: SERVICE_REQUEST_READ_QUERY,
       useExisting: ServiceRequestTypeOrmReadQuery,
+    },
+    {
+      provide: DISPATCHER_QUEUE_READ_QUERY,
+      useExisting: DispatcherQueueTypeOrmReadQuery,
     },
     {
       provide: CUSTOMER_ADDRESS_REPOSITORY,
@@ -112,6 +119,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     SERVICE_CATALOG_READ_QUERY,
     SERVICE_AREA_READ_QUERY,
     SERVICE_REQUEST_READ_QUERY,
+    DISPATCHER_QUEUE_READ_QUERY,
     CUSTOMER_ADDRESS_REPOSITORY,
     SERVICE_REQUEST_REPOSITORY,
     PASSWORD_HASHER,
