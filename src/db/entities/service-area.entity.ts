@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { CustomerAddressEntity } from './customer-address.entity';
+import { TechnicianServiceAreaEntity } from './technician-service-area.entity';
 
 @Entity('service_areas')
 export class ServiceAreaEntity {
@@ -34,4 +35,10 @@ export class ServiceAreaEntity {
 
   @OneToMany(() => CustomerAddressEntity, (address) => address.serviceArea)
   customerAddresses!: CustomerAddressEntity[];
+
+  @OneToMany(
+    () => TechnicianServiceAreaEntity,
+    (technicianServiceArea) => technicianServiceArea.serviceArea,
+  )
+  technicianServiceAreas!: TechnicianServiceAreaEntity[];
 }

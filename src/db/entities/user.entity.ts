@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { UserRoleEntity } from './user-role.entity';
+import { TechnicianEntity } from './technician.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -37,4 +39,7 @@ export class UserEntity {
 
   @OneToMany(() => UserRoleEntity, (userRole) => userRole.user)
   userRoles!: UserRoleEntity[];
+
+  @OneToOne(() => TechnicianEntity, (technician) => technician.user)
+  technicianProfile!: TechnicianEntity | null;
 }

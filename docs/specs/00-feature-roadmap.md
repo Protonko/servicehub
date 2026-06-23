@@ -58,7 +58,7 @@ Current baseline:
 | 13 | Request read models | done | `13-request-read-models.md` |
 | 14 | Dispatcher queue | done | `14-dispatcher-queue.md` |
 | 15 | Triage workflow | done | `15-triage-workflow.md` |
-| 16 | Technician profile persistence | planned | `16-technician-profile-persistence.md` |
+| 16 | Technician profile persistence | done | `16-technician-profile-persistence.md` |
 | 17 | Technician management API | planned | `17-technician-management-api.md` |
 | 18 | Technician availability | planned | `18-technician-availability.md` |
 | 19 | Eligible technician search | planned | `19-eligible-technician-search.md` |
@@ -951,7 +951,7 @@ docs/specs/15-triage-workflow.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

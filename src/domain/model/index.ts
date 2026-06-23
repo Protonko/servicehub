@@ -29,3 +29,5 @@ export type {
 } from './service-type';
 export { User } from './user';
 export type { CreateUserInput, UserProps } from './user';
+export { Technician, TechnicianStatus, TECHNICIAN_STATUSES } from './technician';
+export type { CreateTechnicianInput, TechnicianProps, UpdateTechnicianInput } from './technician';

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { ServiceTypeRequiredSkillEntity } from './service-type-required-skill.entity';
+import { TechnicianSkillEntity } from './technician-skill.entity';
 
 @Entity('skills')
 export class SkillEntity {
@@ -34,4 +35,7 @@ export class SkillEntity {
 
   @OneToMany(() => ServiceTypeRequiredSkillEntity, (requiredSkill) => requiredSkill.skill)
   serviceTypeRequiredSkills!: ServiceTypeRequiredSkillEntity[];
+
+  @OneToMany(() => TechnicianSkillEntity, (technicianSkill) => technicianSkill.skill)
+  technicianSkills!: TechnicianSkillEntity[];
 }
