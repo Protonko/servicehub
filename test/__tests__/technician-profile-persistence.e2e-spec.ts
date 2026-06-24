@@ -5,6 +5,7 @@ import { Test } from '@nestjs/testing';
 import { DataSource } from 'typeorm';
 
 import { Technician, TechnicianStatus } from '@domain/model';
+import { DuplicateTechnicianProfileError } from '@domain/exceptions';
 import { TECHNICIAN_REPOSITORY, TechnicianRepository } from '@domain/repositories';
 import { AppModule } from '../../src/app.module';
 
@@ -75,9 +76,9 @@ describe('Technician profile persistence', () => {
       serviceAreaIds: [serviceAreaId],
     });
 
-    await expect(technicianRepository.save(duplicate)).rejects.toMatchObject({
-      code: '23505',
-    });
+    await expect(technicianRepository.save(duplicate)).rejects.toBeInstanceOf(
+      DuplicateTechnicianProfileError,
+    );
 
     expect(await technicianRepository.findByUserId(userId)).not.toBeNull();
   });

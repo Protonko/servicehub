@@ -59,7 +59,7 @@ Current baseline:
 | 14 | Dispatcher queue | done | `14-dispatcher-queue.md` |
 | 15 | Triage workflow | done | `15-triage-workflow.md` |
 | 16 | Technician profile persistence | done | `16-technician-profile-persistence.md` |
-| 17 | Technician management API | planned | `17-technician-management-api.md` |
+| 17 | Technician management API | done | `17-technician-management-api.md` |
 | 18 | Technician availability | planned | `18-technician-availability.md` |
 | 19 | Eligible technician search | planned | `19-eligible-technician-search.md` |
 | 20 | Assignment domain policy | planned | `20-assignment-domain-policy.md` |
@@ -1006,7 +1006,7 @@ docs/specs/16-technician-profile-persistence.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

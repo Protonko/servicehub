@@ -4,3 +4,10 @@ export class InactiveTechnicianUserError extends Error {
     this.name = new.target.name;
   }
 }
+
+export class DuplicateTechnicianProfileError extends Error {
+  constructor() {
+    super('User already has a technician profile');
+    this.name = new.target.name;
+  }
+}

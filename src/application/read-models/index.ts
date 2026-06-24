@@ -1,6 +1,11 @@
 export { toAuthUserSummary } from './auth-user-summary';
 export type { AuthUserSummary } from './auth-user-summary';
 export type { ServiceAreaSummary } from './service-area';
+export type {
+  TechnicianManagementListItem,
+  TechnicianManagementServiceAreaSummary,
+  TechnicianManagementSkillSummary,
+} from './technician-management';
 export { DispatcherQueueSlaState } from './dispatcher-queue';
 export type { DispatcherQueueItem } from './dispatcher-queue';
 export type {
