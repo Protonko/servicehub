@@ -8,3 +8,4 @@ export {
   ServiceRequestTriageConflictError,
   ServiceRequestDomainError,
 } from './service-request.errors';
+export { InactiveTechnicianUserError } from './technician.errors';

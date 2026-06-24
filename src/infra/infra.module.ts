@@ -18,6 +18,7 @@ import {
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
   SERVICE_REQUEST_REPOSITORY,
+  TECHNICIAN_REPOSITORY,
   USER_REPOSITORY,
 } from '@domain/repositories';
 import { HmacJwtTokenService } from './auth/hmac-jwt-token.service';
@@ -31,6 +32,7 @@ import { CustomerAddressTypeOrmRepository } from './repositories/customer-addres
 import { ServiceCatalogAdminTypeOrmRepository } from './repositories/service-catalog-admin.typeorm-repository';
 import { ServiceRequestTypeOrmRepository } from './repositories/service-request.typeorm-repository';
 import { UserTypeOrmRepository } from './repositories/user.typeorm-repository';
+import { TechnicianTypeOrmRepository } from './repositories/technician.typeorm-repository';
 import { CustomerAddressEntity } from '@db/entities/customer-address.entity';
 import { ServiceAreaEntity } from '@db/entities/service-area.entity';
 import { ServiceCategoryEntity } from '@db/entities/service-category.entity';
@@ -38,6 +40,9 @@ import { ServiceTypeRequiredSkillEntity } from '@db/entities/service-type-requir
 import { ServiceTypeEntity } from '@db/entities/service-type.entity';
 import { SkillEntity } from '@db/entities/skill.entity';
 import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
+import { TechnicianEntity } from '@db/entities/technician.entity';
+import { TechnicianSkillEntity } from '@db/entities/technician-skill.entity';
+import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-area.entity';
 
 @Module({
   imports: [
@@ -58,6 +63,9 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
       ServiceRequestAttachmentEntity,
       AuditLogEntity,
       OutboxEventEntity,
+      TechnicianEntity,
+      TechnicianSkillEntity,
+      TechnicianServiceAreaEntity,
     ]),
   ],
   providers: [
@@ -69,6 +77,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     ServiceRequestTypeOrmReadQuery,
     DispatcherQueueTypeOrmReadQuery,
     CustomerAddressTypeOrmRepository,
+    TechnicianTypeOrmRepository,
     ScryptPasswordHasher,
     HmacJwtTokenService,
     {
@@ -104,6 +113,10 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
       useExisting: ServiceRequestTypeOrmRepository,
     },
     {
+      provide: TECHNICIAN_REPOSITORY,
+      useExisting: TechnicianTypeOrmRepository,
+    },
+    {
       provide: PASSWORD_HASHER,
       useExisting: ScryptPasswordHasher,
     },
@@ -122,6 +135,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
     DISPATCHER_QUEUE_READ_QUERY,
     CUSTOMER_ADDRESS_REPOSITORY,
     SERVICE_REQUEST_REPOSITORY,
+    TECHNICIAN_REPOSITORY,
     PASSWORD_HASHER,
     AUTH_TOKEN_SERVICE,
   ],

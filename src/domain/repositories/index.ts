@@ -17,3 +17,5 @@ export type {
   TriagedServiceRequest,
   TriageServiceRequestPersistenceInput,
 } from './service-request.repository';
+export { TECHNICIAN_REPOSITORY } from './technician.repository';
+export type { TechnicianRepository } from './technician.repository';
