@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, EntityManager } from 'typeorm';
+import { DataSource, EntityManager, QueryFailedError } from 'typeorm';
 
 import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-area.entity';
 import { TechnicianSkillEntity } from '@db/entities/technician-skill.entity';
 import { TechnicianEntity } from '@db/entities/technician.entity';
 import { Technician } from '@domain/model';
+import { DuplicateTechnicianProfileError } from '@domain/exceptions';
 import { TechnicianRepository } from '@domain/repositories';
 import { TechnicianMapper } from '../mappers/technician.mapper';
 
@@ -19,18 +20,29 @@ export class TechnicianTypeOrmRepository implements TechnicianRepository {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
   async save(technician: Technician): Promise<Technician> {
-    return this.dataSource.transaction(async (manager) => {
-      await manager.getRepository(TechnicianEntity).save(TechnicianMapper.toEntity(technician));
-      await this.replaceSkills(manager, technician);
-      await this.replaceServiceAreas(manager, technician);
+    try {
+      return await this.dataSource.transaction(async (manager) => {
+        await manager.getRepository(TechnicianEntity).save(TechnicianMapper.toEntity(technician));
+        await this.replaceSkills(manager, technician);
+        await this.replaceServiceAreas(manager, technician);
 
-      const savedTechnician = await manager.getRepository(TechnicianEntity).findOneOrFail({
-        where: { id: technician.id },
-        relations: technicianRelations,
+        const savedTechnician = await manager.getRepository(TechnicianEntity).findOneOrFail({
+          where: { id: technician.id },
+          relations: technicianRelations,
+        });
+
+        return TechnicianMapper.toDomain(savedTechnician);
       });
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        (error.driverError as { constraint?: string }).constraint === 'uq_technicians_user_id'
+      ) {
+        throw new DuplicateTechnicianProfileError();
+      }
 
-      return TechnicianMapper.toDomain(savedTechnician);
-    });
+      throw error;
+    }
   }
 
   async findById(id: string): Promise<Technician | null> {

@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ApplicationModule } from '@application/application.module';
 import { InfraModule } from '@infra/infra.module';
 import { AdminServiceCatalogController } from './admin-service-catalog.controller';
+import { AdminTechniciansController } from './admin-technicians.controller';
 import { AuthController } from './auth.controller';
 import { CustomerAddressesController } from './customer-addresses.controller';
 import { DispatcherController } from './dispatcher.controller';
@@ -20,6 +21,7 @@ import { ServiceRequestsController } from './service-requests.controller';
     AuthController,
     ServiceCatalogController,
     AdminServiceCatalogController,
+    AdminTechniciansController,
     ServiceAreasController,
     CustomerAddressesController,
     DispatcherController,

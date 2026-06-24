@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { ServiceAreaReadQuery } from '@application/queries/service-area-read.query';
 import { ServiceAreaSummary } from '@application/read-models';
@@ -34,5 +34,18 @@ export class ServiceAreaTypeOrmReadQuery implements ServiceAreaReadQuery {
 
   async activeServiceAreaExists(serviceAreaId: string): Promise<boolean> {
     return this.serviceAreaRepository.existsBy({ id: serviceAreaId, isActive: true });
+  }
+
+  async findActiveServiceAreaIds(serviceAreaIds: string[]): Promise<string[]> {
+    if (serviceAreaIds.length === 0) {
+      return [];
+    }
+
+    const serviceAreas = await this.serviceAreaRepository.find({
+      select: { id: true },
+      where: { id: In(serviceAreaIds), isActive: true },
+    });
+
+    return serviceAreas.map((serviceArea) => serviceArea.id);
   }
 }

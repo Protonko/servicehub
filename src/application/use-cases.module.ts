@@ -6,6 +6,7 @@ import {
   CreateCustomerAddressUseCase,
   CreateServiceRequestUseCase,
   CreateServiceTypeUseCase,
+  CreateTechnicianUseCase,
   GetCurrentUserUseCase,
   GetDispatcherQueueUseCase,
   GetServiceRequestUseCase,
@@ -13,6 +14,7 @@ import {
   ListServiceCategoriesUseCase,
   ListServiceAreasUseCase,
   ListServiceTypesUseCase,
+  ListTechniciansUseCase,
   LoginUseCase,
   RefreshSessionUseCase,
   RegisterCustomerUseCase,
@@ -21,6 +23,7 @@ import {
   UpdateServiceCategoryUseCase,
   UpdateCustomerAddressUseCase,
   UpdateServiceTypeUseCase,
+  UpdateTechnicianUseCase,
 } from '@application/use-cases';
 
 const useCases = [
@@ -39,6 +42,9 @@ const useCases = [
   UpdateServiceCategoryUseCase,
   CreateServiceTypeUseCase,
   UpdateServiceTypeUseCase,
+  CreateTechnicianUseCase,
+  UpdateTechnicianUseCase,
+  ListTechniciansUseCase,
   CreateServiceRequestUseCase,
   SearchServiceRequestsUseCase,
   GetServiceRequestUseCase,

@@ -14,6 +14,7 @@ import { SERVICE_CATALOG_READ_QUERY } from '@application/queries/service-catalog
 import { SERVICE_AREA_READ_QUERY } from '@application/queries/service-area-read.query';
 import { SERVICE_REQUEST_READ_QUERY } from '@application/queries/service-request-read.query';
 import { DISPATCHER_QUEUE_READ_QUERY } from '@application/queries/dispatcher-queue-read.query';
+import { TECHNICIAN_MANAGEMENT_READ_QUERY } from '@application/queries/technician-management-read.query';
 import {
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
@@ -33,6 +34,7 @@ import { ServiceCatalogAdminTypeOrmRepository } from './repositories/service-cat
 import { ServiceRequestTypeOrmRepository } from './repositories/service-request.typeorm-repository';
 import { UserTypeOrmRepository } from './repositories/user.typeorm-repository';
 import { TechnicianTypeOrmRepository } from './repositories/technician.typeorm-repository';
+import { TechnicianManagementTypeOrmReadQuery } from './queries/technician-management/technician-management.typeorm-read-query';
 import { CustomerAddressEntity } from '@db/entities/customer-address.entity';
 import { ServiceAreaEntity } from '@db/entities/service-area.entity';
 import { ServiceCategoryEntity } from '@db/entities/service-category.entity';
@@ -78,6 +80,7 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
     DispatcherQueueTypeOrmReadQuery,
     CustomerAddressTypeOrmRepository,
     TechnicianTypeOrmRepository,
+    TechnicianManagementTypeOrmReadQuery,
     ScryptPasswordHasher,
     HmacJwtTokenService,
     {
@@ -117,6 +120,10 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
       useExisting: TechnicianTypeOrmRepository,
     },
     {
+      provide: TECHNICIAN_MANAGEMENT_READ_QUERY,
+      useExisting: TechnicianManagementTypeOrmReadQuery,
+    },
+    {
       provide: PASSWORD_HASHER,
       useExisting: ScryptPasswordHasher,
     },
@@ -136,6 +143,7 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
     CUSTOMER_ADDRESS_REPOSITORY,
     SERVICE_REQUEST_REPOSITORY,
     TECHNICIAN_REPOSITORY,
+    TECHNICIAN_MANAGEMENT_READ_QUERY,
     PASSWORD_HASHER,
     AUTH_TOKEN_SERVICE,
   ],

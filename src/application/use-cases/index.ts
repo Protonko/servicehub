@@ -2,6 +2,7 @@ export { CreateServiceCategoryUseCase } from './commands/create-service-category
 export { CreateCustomerAddressUseCase } from './commands/create-customer-address/create-customer-address.use-case';
 export { CreateServiceRequestUseCase } from './commands/create-service-request/create-service-request.use-case';
 export { CreateServiceTypeUseCase } from './commands/create-service-type/create-service-type.use-case';
+export { CreateTechnicianUseCase } from './commands/create-technician/create-technician.use-case';
 export { LoginUseCase } from './commands/login/login.use-case';
 export { RefreshSessionUseCase } from './commands/refresh-session/refresh-session.use-case';
 export { RegisterCustomerUseCase } from './commands/register-customer/register-customer.use-case';
@@ -9,6 +10,7 @@ export { TriageServiceRequestUseCase } from './commands/triage-service-request/t
 export { UpdateServiceCategoryUseCase } from './commands/update-service-category/update-service-category.use-case';
 export { UpdateCustomerAddressUseCase } from './commands/update-customer-address/update-customer-address.use-case';
 export { UpdateServiceTypeUseCase } from './commands/update-service-type/update-service-type.use-case';
+export { UpdateTechnicianUseCase } from './commands/update-technician/update-technician.use-case';
 export { GetCurrentUserUseCase } from './queries/get-current-user/get-current-user.use-case';
 export { GetDispatcherQueueUseCase } from './queries/get-dispatcher-queue/get-dispatcher-queue.use-case';
 export { GetServiceRequestUseCase } from './queries/get-service-request/get-service-request.use-case';
@@ -16,4 +18,5 @@ export { ListCustomerAddressesUseCase } from './queries/list-customer-addresses/
 export { ListServiceCategoriesUseCase } from './queries/list-service-categories/list-service-categories.use-case';
 export { ListServiceAreasUseCase } from './queries/list-service-areas/list-service-areas.use-case';
 export { ListServiceTypesUseCase } from './queries/list-service-types/list-service-types.use-case';
+export { ListTechniciansUseCase } from './queries/list-technicians/list-technicians.use-case';
 export { SearchServiceRequestsUseCase } from './queries/search-service-requests/search-service-requests.use-case';

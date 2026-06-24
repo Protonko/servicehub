@@ -32,3 +32,10 @@ export {
   ServiceRequestTriageForbiddenError,
   ServiceRequestTriageSkillNotFoundError,
 } from './service-request.errors';
+export {
+  EmptyTechnicianUpdateError,
+  TechnicianNotFoundError,
+  TechnicianServiceAreaNotFoundError,
+  TechnicianSkillNotFoundError,
+  TechnicianUserNotFoundError,
+} from './technician-management.errors';
