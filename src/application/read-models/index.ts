@@ -6,6 +6,10 @@ export type {
   TechnicianManagementServiceAreaSummary,
   TechnicianManagementSkillSummary,
 } from './technician-management';
+export type {
+  TechnicianCalendar,
+  TechnicianCalendarAvailabilityWindow,
+} from './technician-calendar';
 export { DispatcherQueueSlaState } from './dispatcher-queue';
 export type { DispatcherQueueItem } from './dispatcher-queue';
 export type {

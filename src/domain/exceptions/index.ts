@@ -8,4 +8,8 @@ export {
   ServiceRequestTriageConflictError,
   ServiceRequestDomainError,
 } from './service-request.errors';
-export { DuplicateTechnicianProfileError, InactiveTechnicianUserError } from './technician.errors';
+export {
+  DuplicateTechnicianProfileError,
+  InactiveTechnicianUserError,
+  InvalidTechnicianAvailabilityWindowError,
+} from './technician.errors';

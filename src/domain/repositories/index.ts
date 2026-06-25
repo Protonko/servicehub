@@ -19,3 +19,5 @@ export type {
 } from './service-request.repository';
 export { TECHNICIAN_REPOSITORY } from './technician.repository';
 export type { TechnicianRepository } from './technician.repository';
+export { TECHNICIAN_AVAILABILITY_REPOSITORY } from './technician-availability.repository';
+export type { TechnicianAvailabilityRepository } from './technician-availability.repository';

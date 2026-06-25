@@ -34,6 +34,7 @@ export {
 } from './service-request.errors';
 export {
   EmptyTechnicianUpdateError,
+  TechnicianCalendarForbiddenError,
   TechnicianNotFoundError,
   TechnicianServiceAreaNotFoundError,
   TechnicianSkillNotFoundError,

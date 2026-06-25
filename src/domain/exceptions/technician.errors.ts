@@ -11,3 +11,10 @@ export class DuplicateTechnicianProfileError extends Error {
     this.name = new.target.name;
   }
 }
+
+export class InvalidTechnicianAvailabilityWindowError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = new.target.name;
+  }
+}

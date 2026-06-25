@@ -27,3 +27,9 @@ export class EmptyTechnicianUpdateError extends Error {
     super('At least one mutable technician field must be provided');
   }
 }
+
+export class TechnicianCalendarForbiddenError extends Error {
+  constructor() {
+    super('Technician calendar is not visible to this actor');
+  }
+}

@@ -15,11 +15,13 @@ import { SERVICE_AREA_READ_QUERY } from '@application/queries/service-area-read.
 import { SERVICE_REQUEST_READ_QUERY } from '@application/queries/service-request-read.query';
 import { DISPATCHER_QUEUE_READ_QUERY } from '@application/queries/dispatcher-queue-read.query';
 import { TECHNICIAN_MANAGEMENT_READ_QUERY } from '@application/queries/technician-management-read.query';
+import { TECHNICIAN_CALENDAR_READ_QUERY } from '@application/queries/technician-calendar-read.query';
 import {
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
   SERVICE_REQUEST_REPOSITORY,
   TECHNICIAN_REPOSITORY,
+  TECHNICIAN_AVAILABILITY_REPOSITORY,
   USER_REPOSITORY,
 } from '@domain/repositories';
 import { HmacJwtTokenService } from './auth/hmac-jwt-token.service';
@@ -35,6 +37,8 @@ import { ServiceRequestTypeOrmRepository } from './repositories/service-request.
 import { UserTypeOrmRepository } from './repositories/user.typeorm-repository';
 import { TechnicianTypeOrmRepository } from './repositories/technician.typeorm-repository';
 import { TechnicianManagementTypeOrmReadQuery } from './queries/technician-management/technician-management.typeorm-read-query';
+import { TechnicianCalendarTypeOrmReadQuery } from './queries/technician-calendar/technician-calendar.typeorm-read-query';
+import { TechnicianAvailabilityTypeOrmRepository } from './repositories/technician-availability.typeorm-repository';
 import { CustomerAddressEntity } from '@db/entities/customer-address.entity';
 import { ServiceAreaEntity } from '@db/entities/service-area.entity';
 import { ServiceCategoryEntity } from '@db/entities/service-category.entity';
@@ -45,6 +49,7 @@ import { SlaPolicyEntity } from '@db/entities/sla-policy.entity';
 import { TechnicianEntity } from '@db/entities/technician.entity';
 import { TechnicianSkillEntity } from '@db/entities/technician-skill.entity';
 import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-area.entity';
+import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-availability-window.entity';
 
 @Module({
   imports: [
@@ -68,6 +73,7 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
       TechnicianEntity,
       TechnicianSkillEntity,
       TechnicianServiceAreaEntity,
+      TechnicianAvailabilityWindowEntity,
     ]),
   ],
   providers: [
@@ -81,6 +87,8 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
     CustomerAddressTypeOrmRepository,
     TechnicianTypeOrmRepository,
     TechnicianManagementTypeOrmReadQuery,
+    TechnicianAvailabilityTypeOrmRepository,
+    TechnicianCalendarTypeOrmReadQuery,
     ScryptPasswordHasher,
     HmacJwtTokenService,
     {
@@ -124,6 +132,14 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
       useExisting: TechnicianManagementTypeOrmReadQuery,
     },
     {
+      provide: TECHNICIAN_AVAILABILITY_REPOSITORY,
+      useExisting: TechnicianAvailabilityTypeOrmRepository,
+    },
+    {
+      provide: TECHNICIAN_CALENDAR_READ_QUERY,
+      useExisting: TechnicianCalendarTypeOrmReadQuery,
+    },
+    {
       provide: PASSWORD_HASHER,
       useExisting: ScryptPasswordHasher,
     },
@@ -144,6 +160,8 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
     SERVICE_REQUEST_REPOSITORY,
     TECHNICIAN_REPOSITORY,
     TECHNICIAN_MANAGEMENT_READ_QUERY,
+    TECHNICIAN_AVAILABILITY_REPOSITORY,
+    TECHNICIAN_CALENDAR_READ_QUERY,
     PASSWORD_HASHER,
     AUTH_TOKEN_SERVICE,
   ],

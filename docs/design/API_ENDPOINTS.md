@@ -617,6 +617,24 @@ Role:
 admin
 ```
 
+## POST /api/v1/admin/technicians/:technicianId/availability-windows
+
+Creates an available or blocked technician time window.
+
+Role:
+
+```text
+admin
+```
+
+Business rules:
+
+```text
+technician must exist
+startsAt must be before endsAt
+isAvailable=false represents blocked time
+```
+
 ## GET /api/v1/technicians/:technicianId/calendar
 
 Returns technician calendar.
