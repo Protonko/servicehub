@@ -26,10 +26,13 @@ import {
   ServiceRequestTriageDuplicateSkillsError,
   ServiceRequestTriageForbiddenError,
   ServiceRequestTriageSkillNotFoundError,
+  InvalidTechnicianEligibilityWindowError,
+  ServiceRequestNotAssignableForEligibilityError,
 } from '@application/errors';
 import {
   CreateServiceRequestUseCase,
   GetServiceRequestUseCase,
+  GetEligibleTechniciansUseCase,
   SearchServiceRequestsUseCase,
   TriageServiceRequestUseCase,
 } from '@application/use-cases';
@@ -53,6 +56,10 @@ import {
   toServiceRequestListResponse,
 } from './dto/service-request-read.dto';
 import { ApiErrorResponseFactory } from './factories/api-error-response.factory';
+import {
+  EligibleTechniciansQueryDto,
+  toEligibleTechnicianSearchResponse,
+} from './dto/eligible-technician.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 
@@ -63,6 +70,7 @@ export class ServiceRequestsController {
     private readonly createServiceRequestUseCase: CreateServiceRequestUseCase,
     private readonly searchServiceRequestsUseCase: SearchServiceRequestsUseCase,
     private readonly getServiceRequestUseCase: GetServiceRequestUseCase,
+    private readonly getEligibleTechniciansUseCase: GetEligibleTechniciansUseCase,
     private readonly triageServiceRequestUseCase: TriageServiceRequestUseCase,
   ) {}
 
@@ -157,6 +165,43 @@ export class ServiceRequestsController {
       return toServiceRequestDetailResponse(result.request);
     } catch (error) {
       this.mapReadServiceRequestError(error);
+    }
+  }
+
+  @Get(':requestId/eligible-technicians')
+  @Roles(RoleCode.Dispatcher, RoleCode.Admin)
+  async getEligibleTechnicians(
+    @Param('requestId', new ParseUUIDPipe()) requestId: string,
+    @Query() dto: EligibleTechniciansQueryDto,
+  ) {
+    try {
+      const result = await this.getEligibleTechniciansUseCase.execute({
+        requestId,
+        startsAt: new Date(dto.startsAt),
+        endsAt: new Date(dto.endsAt),
+      });
+
+      return toEligibleTechnicianSearchResponse(result);
+    } catch (error) {
+      if (error instanceof ServiceRequestNotFoundError) {
+        throw new NotFoundException(
+          ApiErrorResponseFactory.create('SERVICE_REQUEST_NOT_FOUND', error.message),
+        );
+      }
+
+      if (error instanceof InvalidTechnicianEligibilityWindowError) {
+        throw new BadRequestException(
+          ApiErrorResponseFactory.create('TECHNICIAN_ELIGIBILITY_WINDOW_INVALID', error.message),
+        );
+      }
+
+      if (error instanceof ServiceRequestNotAssignableForEligibilityError) {
+        throw new ConflictException(
+          ApiErrorResponseFactory.create('SERVICE_REQUEST_NOT_ASSIGNABLE', error.message),
+        );
+      }
+
+      throw error;
     }
   }
 

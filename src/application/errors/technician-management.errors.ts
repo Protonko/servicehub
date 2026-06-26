@@ -33,3 +33,15 @@ export class TechnicianCalendarForbiddenError extends Error {
     super('Technician calendar is not visible to this actor');
   }
 }
+
+export class InvalidTechnicianEligibilityWindowError extends Error {
+  constructor() {
+    super('startsAt must be before endsAt');
+  }
+}
+
+export class ServiceRequestNotAssignableForEligibilityError extends Error {
+  constructor() {
+    super('Service request status does not allow technician assignment');
+  }
+}

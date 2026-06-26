@@ -434,8 +434,19 @@ Business rules:
 technician must be active
 technician must have required skills
 technician must serve request service area
-technician must be available
+an available window must fully cover the selected slot
+an overlapping blocked window excludes the technician
 technician must not have overlapping active assignments
+result is advisory and assignment must revalidate transactionally
+```
+
+Ranking:
+
+```text
+active assignment count ascending
+rating descending with null last
+technician name ascending
+technician id ascending
 ```
 
 ## POST /api/v1/service-requests/:requestId/assignments

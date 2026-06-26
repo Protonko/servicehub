@@ -16,6 +16,7 @@ import { SERVICE_REQUEST_READ_QUERY } from '@application/queries/service-request
 import { DISPATCHER_QUEUE_READ_QUERY } from '@application/queries/dispatcher-queue-read.query';
 import { TECHNICIAN_MANAGEMENT_READ_QUERY } from '@application/queries/technician-management-read.query';
 import { TECHNICIAN_CALENDAR_READ_QUERY } from '@application/queries/technician-calendar-read.query';
+import { TECHNICIAN_ELIGIBILITY_QUERY } from '@application/queries/technician-eligibility.query';
 import {
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
@@ -50,6 +51,8 @@ import { TechnicianEntity } from '@db/entities/technician.entity';
 import { TechnicianSkillEntity } from '@db/entities/technician-skill.entity';
 import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-area.entity';
 import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-availability-window.entity';
+import { AssignmentEntity } from '@db/entities/assignment.entity';
+import { TechnicianEligibilityTypeOrmQuery } from './queries/technician-eligibility/technician-eligibility.typeorm-query';
 
 @Module({
   imports: [
@@ -74,6 +77,7 @@ import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-avai
       TechnicianSkillEntity,
       TechnicianServiceAreaEntity,
       TechnicianAvailabilityWindowEntity,
+      AssignmentEntity,
     ]),
   ],
   providers: [
@@ -89,6 +93,7 @@ import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-avai
     TechnicianManagementTypeOrmReadQuery,
     TechnicianAvailabilityTypeOrmRepository,
     TechnicianCalendarTypeOrmReadQuery,
+    TechnicianEligibilityTypeOrmQuery,
     ScryptPasswordHasher,
     HmacJwtTokenService,
     {
@@ -140,6 +145,10 @@ import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-avai
       useExisting: TechnicianCalendarTypeOrmReadQuery,
     },
     {
+      provide: TECHNICIAN_ELIGIBILITY_QUERY,
+      useExisting: TechnicianEligibilityTypeOrmQuery,
+    },
+    {
       provide: PASSWORD_HASHER,
       useExisting: ScryptPasswordHasher,
     },
@@ -162,6 +171,7 @@ import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-avai
     TECHNICIAN_MANAGEMENT_READ_QUERY,
     TECHNICIAN_AVAILABILITY_REPOSITORY,
     TECHNICIAN_CALENDAR_READ_QUERY,
+    TECHNICIAN_ELIGIBILITY_QUERY,
     PASSWORD_HASHER,
     AUTH_TOKEN_SERVICE,
   ],

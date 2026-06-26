@@ -13,6 +13,7 @@ export { UpdateCustomerAddressUseCase } from './commands/update-customer-address
 export { UpdateServiceTypeUseCase } from './commands/update-service-type/update-service-type.use-case';
 export { UpdateTechnicianUseCase } from './commands/update-technician/update-technician.use-case';
 export { GetCurrentUserUseCase } from './queries/get-current-user/get-current-user.use-case';
+export { GetEligibleTechniciansUseCase } from './queries/get-eligible-technicians/get-eligible-technicians.use-case';
 export { GetDispatcherQueueUseCase } from './queries/get-dispatcher-queue/get-dispatcher-queue.use-case';
 export { GetServiceRequestUseCase } from './queries/get-service-request/get-service-request.use-case';
 export { GetTechnicianCalendarUseCase } from './queries/get-technician-calendar/get-technician-calendar.use-case';
