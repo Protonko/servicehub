@@ -1,5 +1,7 @@
 export { RoleCode, isRoleCode } from './role-code';
 export { AssignmentStatus, ACTIVE_ASSIGNMENT_STATUSES } from './assignment-status';
+export { AssignmentTimeSlot } from './assignment-time-slot';
+export type { AssignmentTimeSlotProps } from './assignment-time-slot';
 export { RequestPriority, REQUEST_PRIORITIES } from './request-priority';
 export { CustomerAddress } from './customer-address';
 export type {

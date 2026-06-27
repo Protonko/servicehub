@@ -1,4 +1,13 @@
 export {
+  AssignmentDomainError,
+  InvalidAssignmentTimeSlotError,
+  TechnicianMissingRequiredSkillsError,
+  TechnicianNotActiveForAssignmentError,
+  TechnicianOutsideServiceAreaError,
+  TechnicianScheduleOverlapError,
+  TechnicianUnavailableForAssignmentError,
+} from './assignment.errors';
+export {
   InvalidServiceRequestTransitionError,
   ServiceRequestCannotBeAssignedError,
   ServiceRequestCannotBeCancelledError,
