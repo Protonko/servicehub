@@ -16,6 +16,7 @@ import {
 
 import { AuthenticatedActor } from '@application/auth';
 import {
+  AssignmentForbiddenError,
   ServiceRequestAddressNotFoundError,
   ServiceRequestCategoryNotFoundError,
   ServiceRequestPreferredWindowInPastError,
@@ -28,8 +29,10 @@ import {
   ServiceRequestTriageSkillNotFoundError,
   InvalidTechnicianEligibilityWindowError,
   ServiceRequestNotAssignableForEligibilityError,
+  TechnicianNotFoundError,
 } from '@application/errors';
 import {
+  AssignTechnicianUseCase,
   CreateServiceRequestUseCase,
   GetServiceRequestUseCase,
   GetEligibleTechniciansUseCase,
@@ -37,9 +40,16 @@ import {
   TriageServiceRequestUseCase,
 } from '@application/use-cases';
 import {
+  InvalidAssignmentTimeSlotError,
+  ServiceRequestCannotBeAssignedError,
   ServiceRequestCannotBeTriagedError,
   ServiceRequestOtherTypeCannotBeTriagedError,
   ServiceRequestTriageConflictError,
+  TechnicianMissingRequiredSkillsError,
+  TechnicianNotActiveForAssignmentError,
+  TechnicianOutsideServiceAreaError,
+  TechnicianScheduleOverlapError,
+  TechnicianUnavailableForAssignmentError,
 } from '@domain/exceptions';
 import { RoleCode } from '@domain/model';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -62,17 +72,41 @@ import {
 } from './dto/eligible-technician.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
+import { AssignTechnicianRequestDto, toAssignmentResponse } from './dto/assignment.dto';
 
 @Controller('service-requests')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ServiceRequestsController {
   constructor(
+    private readonly assignTechnicianUseCase: AssignTechnicianUseCase,
     private readonly createServiceRequestUseCase: CreateServiceRequestUseCase,
     private readonly searchServiceRequestsUseCase: SearchServiceRequestsUseCase,
     private readonly getServiceRequestUseCase: GetServiceRequestUseCase,
     private readonly getEligibleTechniciansUseCase: GetEligibleTechniciansUseCase,
     private readonly triageServiceRequestUseCase: TriageServiceRequestUseCase,
   ) {}
+
+  @Post(':requestId/assignments')
+  @Roles(RoleCode.Dispatcher, RoleCode.Admin)
+  async assignTechnician(
+    @CurrentUser() actor: AuthenticatedActor,
+    @Param('requestId', new ParseUUIDPipe()) requestId: string,
+    @Body() dto: AssignTechnicianRequestDto,
+  ) {
+    try {
+      const result = await this.assignTechnicianUseCase.execute({
+        actor,
+        requestId,
+        technicianId: dto.technicianId,
+        startsAt: new Date(dto.startsAt),
+        endsAt: new Date(dto.endsAt),
+      });
+
+      return toAssignmentResponse(result.assigned);
+    } catch (error) {
+      this.mapAssignTechnicianError(error);
+    }
+  }
 
   @Post()
   @Roles(RoleCode.Customer)
@@ -233,6 +267,41 @@ export class ServiceRequestsController {
     if (error instanceof ServiceRequestServiceTypeCategoryMismatchError) {
       throw new ConflictException(
         ApiErrorResponseFactory.create('SERVICE_TYPE_CATEGORY_MISMATCH', error.message),
+      );
+    }
+
+    throw error;
+  }
+
+  private mapAssignTechnicianError(error: unknown): never {
+    if (error instanceof AssignmentForbiddenError) {
+      throw new ForbiddenException(
+        ApiErrorResponseFactory.create('ASSIGNMENT_FORBIDDEN', error.message),
+      );
+    }
+
+    if (error instanceof ServiceRequestNotFoundError || error instanceof TechnicianNotFoundError) {
+      throw new NotFoundException(
+        ApiErrorResponseFactory.create('ASSIGNMENT_RESOURCE_NOT_FOUND', error.message),
+      );
+    }
+
+    if (error instanceof InvalidAssignmentTimeSlotError) {
+      throw new BadRequestException(
+        ApiErrorResponseFactory.create('ASSIGNMENT_TIME_SLOT_INVALID', error.message),
+      );
+    }
+
+    if (
+      error instanceof ServiceRequestCannotBeAssignedError ||
+      error instanceof TechnicianNotActiveForAssignmentError ||
+      error instanceof TechnicianMissingRequiredSkillsError ||
+      error instanceof TechnicianOutsideServiceAreaError ||
+      error instanceof TechnicianUnavailableForAssignmentError ||
+      error instanceof TechnicianScheduleOverlapError
+    ) {
+      throw new ConflictException(
+        ApiErrorResponseFactory.create('ASSIGNMENT_CONFLICT', error.message),
       );
     }
 

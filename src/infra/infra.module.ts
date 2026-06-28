@@ -18,6 +18,7 @@ import { TECHNICIAN_MANAGEMENT_READ_QUERY } from '@application/queries/technicia
 import { TECHNICIAN_CALENDAR_READ_QUERY } from '@application/queries/technician-calendar-read.query';
 import { TECHNICIAN_ELIGIBILITY_QUERY } from '@application/queries/technician-eligibility.query';
 import {
+  ASSIGNMENT_REPOSITORY,
   CUSTOMER_ADDRESS_REPOSITORY,
   SERVICE_CATALOG_ADMIN_REPOSITORY,
   SERVICE_REQUEST_REPOSITORY,
@@ -53,6 +54,7 @@ import { TechnicianServiceAreaEntity } from '@db/entities/technician-service-are
 import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-availability-window.entity';
 import { AssignmentEntity } from '@db/entities/assignment.entity';
 import { TechnicianEligibilityTypeOrmQuery } from './queries/technician-eligibility/technician-eligibility.typeorm-query';
+import { AssignmentTypeOrmRepository } from './repositories/assignment.typeorm-repository';
 
 @Module({
   imports: [
@@ -81,6 +83,7 @@ import { TechnicianEligibilityTypeOrmQuery } from './queries/technician-eligibil
     ]),
   ],
   providers: [
+    AssignmentTypeOrmRepository,
     UserTypeOrmRepository,
     ServiceCatalogAdminTypeOrmRepository,
     ServiceRequestTypeOrmRepository,
@@ -96,6 +99,10 @@ import { TechnicianEligibilityTypeOrmQuery } from './queries/technician-eligibil
     TechnicianEligibilityTypeOrmQuery,
     ScryptPasswordHasher,
     HmacJwtTokenService,
+    {
+      provide: ASSIGNMENT_REPOSITORY,
+      useExisting: AssignmentTypeOrmRepository,
+    },
     {
       provide: USER_REPOSITORY,
       useExisting: UserTypeOrmRepository,
@@ -159,6 +166,7 @@ import { TechnicianEligibilityTypeOrmQuery } from './queries/technician-eligibil
   ],
   exports: [
     QueueModule,
+    ASSIGNMENT_REPOSITORY,
     USER_REPOSITORY,
     SERVICE_CATALOG_ADMIN_REPOSITORY,
     SERVICE_CATALOG_READ_QUERY,

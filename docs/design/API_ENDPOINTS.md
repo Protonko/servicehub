@@ -482,6 +482,24 @@ technician cannot have overlapping active assignments
 operation must be transaction-safe
 ```
 
+Response: `201 Created`.
+
+```json
+{
+  "data": {
+    "id": "uuid",
+    "serviceRequestId": "uuid",
+    "technicianId": "uuid",
+    "assignedByUserId": "uuid",
+    "status": "assigned",
+    "startsAt": "2026-06-12T10:00:00.000Z",
+    "endsAt": "2026-06-12T11:30:00.000Z",
+    "createdAt": "2026-06-11T10:00:00.000Z",
+    "updatedAt": "2026-06-11T10:00:00.000Z"
+  }
+}
+```
+
 ## PATCH /api/v1/assignments/:assignmentId/reschedule
 
 Reschedules an assignment.

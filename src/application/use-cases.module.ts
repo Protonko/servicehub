@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { InfraModule } from '@infra/infra.module';
 import {
+  AssignTechnicianUseCase,
   CreateServiceCategoryUseCase,
   CreateCustomerAddressUseCase,
   CreateServiceRequestUseCase,
@@ -30,6 +31,7 @@ import {
 } from '@application/use-cases';
 
 const useCases = [
+  AssignTechnicianUseCase,
   RegisterCustomerUseCase,
   LoginUseCase,
   RefreshSessionUseCase,

@@ -285,10 +285,10 @@ Transaction flow:
 
 ```text
 validate actor is dispatcher or admin
-load request with required skills
+lock request and load it with required skills and address service area
 reject cancelled/completed/in_progress request
 reject request with Other service type or needs_triage status
-load technician with skills, service areas, availability
+lock technician and load it with skills, service areas, availability
 validate technician active
 validate required skills
 validate service area
@@ -300,6 +300,14 @@ set request status to assigned
 write audit log
 write TechnicianAssigned outbox event
 commit
+```
+
+Concurrency rule:
+
+```text
+all assignment transactions lock request first and technician second
+all assignment transactions for one technician serialize on the technician row
+availability writes lock the same technician row before changing schedule inputs
 ```
 
 Events:

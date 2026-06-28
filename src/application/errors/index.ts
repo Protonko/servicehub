@@ -42,3 +42,4 @@ export {
   TechnicianSkillNotFoundError,
   TechnicianUserNotFoundError,
 } from './technician-management.errors';
+export { AssignmentForbiddenError } from './assignment.errors';
