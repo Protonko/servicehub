@@ -60,10 +60,10 @@ Current baseline:
 | 15 | Triage workflow | done | `15-triage-workflow.md` |
 | 16 | Technician profile persistence | done | `16-technician-profile-persistence.md` |
 | 17 | Technician management API | done | `17-technician-management-api.md` |
-| 18 | Technician availability | planned | `18-technician-availability.md` |
-| 19 | Eligible technician search | planned | `19-eligible-technician-search.md` |
-| 20 | Assignment domain policy | planned | `20-assignment-domain-policy.md` |
-| 21 | Assign technician transaction | planned | `21-assign-technician-transaction.md` |
+| 18 | Technician availability | done | `18-technician-availability.md` |
+| 19 | Eligible technician search | done | `19-eligible-technician-search.md` |
+| 20 | Assignment domain policy | done | `20-assignment-domain-policy.md` |
+| 21 | Assign technician transaction | done | `21-assign-technician-transaction.md` |
 | 22 | Technician assignment reads | planned | `22-technician-assignment-reads.md` |
 | 23 | Accept assignment | planned | `23-accept-assignment.md` |
 | 24 | Technician on the way | planned | `24-technician-on-the-way.md` |
@@ -1052,7 +1052,7 @@ docs/specs/17-technician-management-api.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -1102,7 +1102,7 @@ docs/specs/18-technician-availability.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -1156,7 +1156,7 @@ docs/specs/19-eligible-technician-search.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:
@@ -1204,7 +1204,7 @@ docs/specs/20-assignment-domain-policy.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

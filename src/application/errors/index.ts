@@ -34,8 +34,12 @@ export {
 } from './service-request.errors';
 export {
   EmptyTechnicianUpdateError,
+  InvalidTechnicianEligibilityWindowError,
+  ServiceRequestNotAssignableForEligibilityError,
+  TechnicianCalendarForbiddenError,
   TechnicianNotFoundError,
   TechnicianServiceAreaNotFoundError,
   TechnicianSkillNotFoundError,
   TechnicianUserNotFoundError,
 } from './technician-management.errors';
+export { AssignmentForbiddenError } from './assignment.errors';

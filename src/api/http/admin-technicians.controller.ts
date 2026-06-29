@@ -20,14 +20,23 @@ import {
   TechnicianUserNotFoundError,
 } from '@application/errors';
 import {
+  CreateTechnicianAvailabilityWindowUseCase,
   CreateTechnicianUseCase,
   ListTechniciansUseCase,
   UpdateTechnicianUseCase,
 } from '@application/use-cases';
-import { DuplicateTechnicianProfileError, InactiveTechnicianUserError } from '@domain/exceptions';
+import {
+  DuplicateTechnicianProfileError,
+  InactiveTechnicianUserError,
+  InvalidTechnicianAvailabilityWindowError,
+} from '@domain/exceptions';
 import { RoleCode } from '@domain/model';
 
 import { Roles } from './decorators/roles.decorator';
+import {
+  CreateTechnicianAvailabilityWindowRequestDto,
+  toTechnicianAvailabilityWindowResponse,
+} from './dto/technician-availability.dto';
 import {
   CreateTechnicianRequestDto,
   UpdateTechnicianRequestDto,
@@ -46,6 +55,7 @@ export class AdminTechniciansController {
     private readonly createTechnicianUseCase: CreateTechnicianUseCase,
     private readonly updateTechnicianUseCase: UpdateTechnicianUseCase,
     private readonly listTechniciansUseCase: ListTechniciansUseCase,
+    private readonly createAvailabilityWindowUseCase: CreateTechnicianAvailabilityWindowUseCase,
   ) {}
 
   @Get()
@@ -63,6 +73,33 @@ export class AdminTechniciansController {
 
       return toTechnicianResponse(result.technician);
     } catch (error) {
+      this.mapTechnicianError(error);
+    }
+  }
+
+  @Post(':technicianId/availability-windows')
+  @Roles(RoleCode.Admin)
+  async createAvailabilityWindow(
+    @Param('technicianId', new ParseUUIDPipe()) technicianId: string,
+    @Body() dto: CreateTechnicianAvailabilityWindowRequestDto,
+  ) {
+    try {
+      const result = await this.createAvailabilityWindowUseCase.execute({
+        technicianId,
+        startsAt: new Date(dto.startsAt),
+        endsAt: new Date(dto.endsAt),
+        isAvailable: dto.isAvailable,
+        reason: dto.reason,
+      });
+
+      return toTechnicianAvailabilityWindowResponse(result.availabilityWindow);
+    } catch (error) {
+      if (error instanceof InvalidTechnicianAvailabilityWindowError) {
+        throw new BadRequestException(
+          ApiErrorResponseFactory.create('TECHNICIAN_AVAILABILITY_INVALID', error.message),
+        );
+      }
+
       this.mapTechnicianError(error);
     }
   }

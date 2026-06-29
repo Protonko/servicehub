@@ -1,4 +1,9 @@
 export { RoleCode, isRoleCode } from './role-code';
+export { AssignmentStatus, ACTIVE_ASSIGNMENT_STATUSES } from './assignment-status';
+export { Assignment } from './assignment';
+export type { AssignmentProps, CreateAssignmentInput } from './assignment';
+export { AssignmentTimeSlot } from './assignment-time-slot';
+export type { AssignmentTimeSlotProps } from './assignment-time-slot';
 export { RequestPriority, REQUEST_PRIORITIES } from './request-priority';
 export { CustomerAddress } from './customer-address';
 export type {
@@ -31,3 +36,8 @@ export { User } from './user';
 export type { CreateUserInput, UserProps } from './user';
 export { Technician, TechnicianStatus, TECHNICIAN_STATUSES } from './technician';
 export type { CreateTechnicianInput, TechnicianProps, UpdateTechnicianInput } from './technician';
+export { TechnicianAvailabilityWindow } from './technician-availability-window';
+export type {
+  CreateTechnicianAvailabilityWindowInput,
+  TechnicianAvailabilityWindowProps,
+} from './technician-availability-window';

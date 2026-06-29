@@ -1,4 +1,13 @@
 export {
+  AssignmentDomainError,
+  InvalidAssignmentTimeSlotError,
+  TechnicianMissingRequiredSkillsError,
+  TechnicianNotActiveForAssignmentError,
+  TechnicianOutsideServiceAreaError,
+  TechnicianScheduleOverlapError,
+  TechnicianUnavailableForAssignmentError,
+} from './assignment.errors';
+export {
   InvalidServiceRequestTransitionError,
   ServiceRequestCannotBeAssignedError,
   ServiceRequestCannotBeCancelledError,
@@ -8,4 +17,8 @@ export {
   ServiceRequestTriageConflictError,
   ServiceRequestDomainError,
 } from './service-request.errors';
-export { DuplicateTechnicianProfileError, InactiveTechnicianUserError } from './technician.errors';
+export {
+  DuplicateTechnicianProfileError,
+  InactiveTechnicianUserError,
+  InvalidTechnicianAvailabilityWindowError,
+} from './technician.errors';

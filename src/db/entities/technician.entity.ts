@@ -12,6 +12,7 @@ import {
 import { TechnicianStatus } from '@domain/model';
 import { TechnicianServiceAreaEntity } from './technician-service-area.entity';
 import { TechnicianSkillEntity } from './technician-skill.entity';
+import { TechnicianAvailabilityWindowEntity } from './technician-availability-window.entity';
 import { UserEntity } from './user.entity';
 
 @Entity('technicians')
@@ -54,4 +55,10 @@ export class TechnicianEntity {
     (technicianServiceArea) => technicianServiceArea.technician,
   )
   serviceAreas!: TechnicianServiceAreaEntity[];
+
+  @OneToMany(
+    () => TechnicianAvailabilityWindowEntity,
+    (availabilityWindow) => availabilityWindow.technician,
+  )
+  availabilityWindows!: TechnicianAvailabilityWindowEntity[];
 }

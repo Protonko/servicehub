@@ -2,14 +2,18 @@ import { Module } from '@nestjs/common';
 
 import { InfraModule } from '@infra/infra.module';
 import {
+  AssignTechnicianUseCase,
   CreateServiceCategoryUseCase,
   CreateCustomerAddressUseCase,
   CreateServiceRequestUseCase,
   CreateServiceTypeUseCase,
   CreateTechnicianUseCase,
+  CreateTechnicianAvailabilityWindowUseCase,
   GetCurrentUserUseCase,
   GetDispatcherQueueUseCase,
+  GetEligibleTechniciansUseCase,
   GetServiceRequestUseCase,
+  GetTechnicianCalendarUseCase,
   ListCustomerAddressesUseCase,
   ListServiceCategoriesUseCase,
   ListServiceAreasUseCase,
@@ -27,11 +31,13 @@ import {
 } from '@application/use-cases';
 
 const useCases = [
+  AssignTechnicianUseCase,
   RegisterCustomerUseCase,
   LoginUseCase,
   RefreshSessionUseCase,
   GetCurrentUserUseCase,
   GetDispatcherQueueUseCase,
+  GetEligibleTechniciansUseCase,
   ListServiceCategoriesUseCase,
   ListServiceTypesUseCase,
   ListServiceAreasUseCase,
@@ -43,8 +49,10 @@ const useCases = [
   CreateServiceTypeUseCase,
   UpdateServiceTypeUseCase,
   CreateTechnicianUseCase,
+  CreateTechnicianAvailabilityWindowUseCase,
   UpdateTechnicianUseCase,
   ListTechniciansUseCase,
+  GetTechnicianCalendarUseCase,
   CreateServiceRequestUseCase,
   SearchServiceRequestsUseCase,
   GetServiceRequestUseCase,

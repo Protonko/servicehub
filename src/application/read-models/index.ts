@@ -2,10 +2,18 @@ export { toAuthUserSummary } from './auth-user-summary';
 export type { AuthUserSummary } from './auth-user-summary';
 export type { ServiceAreaSummary } from './service-area';
 export type {
+  EligibleTechnicianCandidate,
+  EligibleTechnicianSearchResult,
+} from './eligible-technician';
+export type {
   TechnicianManagementListItem,
   TechnicianManagementServiceAreaSummary,
   TechnicianManagementSkillSummary,
 } from './technician-management';
+export type {
+  TechnicianCalendar,
+  TechnicianCalendarAvailabilityWindow,
+} from './technician-calendar';
 export { DispatcherQueueSlaState } from './dispatcher-queue';
 export type { DispatcherQueueItem } from './dispatcher-queue';
 export type {

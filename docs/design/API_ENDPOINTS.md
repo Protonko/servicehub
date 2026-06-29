@@ -434,8 +434,19 @@ Business rules:
 technician must be active
 technician must have required skills
 technician must serve request service area
-technician must be available
+an available window must fully cover the selected slot
+an overlapping blocked window excludes the technician
 technician must not have overlapping active assignments
+result is advisory and assignment must revalidate transactionally
+```
+
+Ranking:
+
+```text
+active assignment count ascending
+rating descending with null last
+technician name ascending
+technician id ascending
 ```
 
 ## POST /api/v1/service-requests/:requestId/assignments
@@ -469,6 +480,24 @@ technician must serve request area
 technician must be available
 technician cannot have overlapping active assignments
 operation must be transaction-safe
+```
+
+Response: `201 Created`.
+
+```json
+{
+  "data": {
+    "id": "uuid",
+    "serviceRequestId": "uuid",
+    "technicianId": "uuid",
+    "assignedByUserId": "uuid",
+    "status": "assigned",
+    "startsAt": "2026-06-12T10:00:00.000Z",
+    "endsAt": "2026-06-12T11:30:00.000Z",
+    "createdAt": "2026-06-11T10:00:00.000Z",
+    "updatedAt": "2026-06-11T10:00:00.000Z"
+  }
+}
 ```
 
 ## PATCH /api/v1/assignments/:assignmentId/reschedule
@@ -615,6 +644,24 @@ Role:
 
 ```text
 admin
+```
+
+## POST /api/v1/admin/technicians/:technicianId/availability-windows
+
+Creates an available or blocked technician time window.
+
+Role:
+
+```text
+admin
+```
+
+Business rules:
+
+```text
+technician must exist
+startsAt must be before endsAt
+isAvailable=false represents blocked time
 ```
 
 ## GET /api/v1/technicians/:technicianId/calendar

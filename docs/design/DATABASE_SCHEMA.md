@@ -401,7 +401,7 @@ Stores regular or manually entered availability windows.
 | Column | Type | Required | Notes |
 |---|---:|---:|---|
 | id | uuid | yes | Primary key |
-| technician_id | uuid | yes | FK technicians.id |
+| technician_id | uuid | yes | FK technicians.id, ON DELETE CASCADE |
 | starts_at | timestamptz | yes |  |
 | ends_at | timestamptz | yes |  |
 | is_available | boolean | yes | false can represent blocked time |
@@ -413,6 +413,7 @@ Constraints:
 
 ```text
 starts_at < ends_at
+foreign key(technician_id) references technicians(id) on delete cascade
 ```
 
 Indexes:
