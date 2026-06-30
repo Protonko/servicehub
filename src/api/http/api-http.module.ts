@@ -13,6 +13,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { ServiceAreasController } from './service-areas.controller';
 import { ServiceCatalogController } from './service-catalog.controller';
 import { ServiceRequestsController } from './service-requests.controller';
+import { TechnicianAssignmentsController } from './technician-assignments.controller';
 import { TechniciansController } from './technicians.controller';
 
 @Module({
@@ -27,6 +28,7 @@ import { TechniciansController } from './technicians.controller';
     CustomerAddressesController,
     DispatcherController,
     ServiceRequestsController,
+    TechnicianAssignmentsController,
     TechniciansController,
   ],
   providers: [JwtAuthGuard, RolesGuard],

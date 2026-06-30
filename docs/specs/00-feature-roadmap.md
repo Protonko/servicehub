@@ -64,7 +64,7 @@ Current baseline:
 | 19 | Eligible technician search | done | `19-eligible-technician-search.md` |
 | 20 | Assignment domain policy | done | `20-assignment-domain-policy.md` |
 | 21 | Assign technician transaction | done | `21-assign-technician-transaction.md` |
-| 22 | Technician assignment reads | planned | `22-technician-assignment-reads.md` |
+| 22 | Technician assignment reads | done | `22-technician-assignment-reads.md` |
 | 23 | Accept assignment | planned | `23-accept-assignment.md` |
 | 24 | Technician on the way | planned | `24-technician-on-the-way.md` |
 | 25 | Start service work | planned | `25-start-service-work.md` |
@@ -1258,7 +1258,7 @@ docs/specs/21-assign-technician-transaction.md
 Status:
 
 ```text
-planned
+done
 ```
 
 Goal:

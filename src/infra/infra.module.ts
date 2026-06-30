@@ -17,6 +17,7 @@ import { DISPATCHER_QUEUE_READ_QUERY } from '@application/queries/dispatcher-que
 import { TECHNICIAN_MANAGEMENT_READ_QUERY } from '@application/queries/technician-management-read.query';
 import { TECHNICIAN_CALENDAR_READ_QUERY } from '@application/queries/technician-calendar-read.query';
 import { TECHNICIAN_ELIGIBILITY_QUERY } from '@application/queries/technician-eligibility.query';
+import { TECHNICIAN_ASSIGNMENT_READ_QUERY } from '@application/queries/technician-assignment-read.query';
 import {
   ASSIGNMENT_REPOSITORY,
   CUSTOMER_ADDRESS_REPOSITORY,
@@ -55,6 +56,7 @@ import { TechnicianAvailabilityWindowEntity } from '@db/entities/technician-avai
 import { AssignmentEntity } from '@db/entities/assignment.entity';
 import { TechnicianEligibilityTypeOrmQuery } from './queries/technician-eligibility/technician-eligibility.typeorm-query';
 import { AssignmentTypeOrmRepository } from './repositories/assignment.typeorm-repository';
+import { TechnicianAssignmentTypeOrmReadQuery } from './queries/technician-assignment/technician-assignment.typeorm-read-query';
 
 @Module({
   imports: [
@@ -97,6 +99,7 @@ import { AssignmentTypeOrmRepository } from './repositories/assignment.typeorm-r
     TechnicianAvailabilityTypeOrmRepository,
     TechnicianCalendarTypeOrmReadQuery,
     TechnicianEligibilityTypeOrmQuery,
+    TechnicianAssignmentTypeOrmReadQuery,
     ScryptPasswordHasher,
     HmacJwtTokenService,
     {
@@ -156,6 +159,10 @@ import { AssignmentTypeOrmRepository } from './repositories/assignment.typeorm-r
       useExisting: TechnicianEligibilityTypeOrmQuery,
     },
     {
+      provide: TECHNICIAN_ASSIGNMENT_READ_QUERY,
+      useExisting: TechnicianAssignmentTypeOrmReadQuery,
+    },
+    {
       provide: PASSWORD_HASHER,
       useExisting: ScryptPasswordHasher,
     },
@@ -180,6 +187,7 @@ import { AssignmentTypeOrmRepository } from './repositories/assignment.typeorm-r
     TECHNICIAN_AVAILABILITY_REPOSITORY,
     TECHNICIAN_CALENDAR_READ_QUERY,
     TECHNICIAN_ELIGIBILITY_QUERY,
+    TECHNICIAN_ASSIGNMENT_READ_QUERY,
     PASSWORD_HASHER,
     AUTH_TOKEN_SERVICE,
   ],

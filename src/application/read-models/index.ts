@@ -14,6 +14,10 @@ export type {
   TechnicianCalendar,
   TechnicianCalendarAvailabilityWindow,
 } from './technician-calendar';
+export type {
+  TechnicianAssignmentItem,
+  TechnicianAssignmentServiceRequestSummary,
+} from './technician-assignment';
 export { DispatcherQueueSlaState } from './dispatcher-queue';
 export type { DispatcherQueueItem } from './dispatcher-queue';
 export type {
