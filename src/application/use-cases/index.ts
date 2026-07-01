@@ -22,5 +22,6 @@ export { ListServiceCategoriesUseCase } from './queries/list-service-categories/
 export { ListServiceAreasUseCase } from './queries/list-service-areas/list-service-areas.use-case';
 export { ListServiceTypesUseCase } from './queries/list-service-types/list-service-types.use-case';
 export { ListTechniciansUseCase } from './queries/list-technicians/list-technicians.use-case';
+export { ListTechnicianAssignmentsUseCase } from './queries/list-technician-assignments/list-technician-assignments.use-case';
 export { SearchServiceRequestsUseCase } from './queries/search-service-requests/search-service-requests.use-case';
 export { AssignTechnicianUseCase } from './commands/assign-technician/assign-technician.use-case';
